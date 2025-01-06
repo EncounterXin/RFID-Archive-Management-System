@@ -57,23 +57,24 @@ spring:
 - 运行 Spring Boot 应用：
   `./mvnw spring-boot:run`
 - 访问项目
-  本地访问地址: http://localhost:8080
-  外部访问地址: http://<your-ip-address>:8080
+  - 本地访问地址: http://localhost:8080
+  - 外部访问地址: http://<your-ip-address>:8080
 
 ## 参考文档
 
-[官方 Apache Maven 文档](https://maven.apache.org/guides/index.html)
-[Spring Boot Maven 插件参考指南](https://docs.spring.io/spring-boot/3.3/maven-plugin/)
-[创建 OCI 镜像](https://docs.spring.io/spring-boot/3.3/maven-plugin/build-image.html)
-[Spring Web](https://docs.spring.io/spring-boot/3.3/reference/web/servlet.html)
+- [官方 Apache Maven 文档](https://maven.apache.org/guides/index.html)
+- [Spring Boot Maven 插件参考指南](https://docs.spring.io/spring-boot/3.3/maven-plugin/)
+- [创建 OCI 镜像](https://docs.spring.io/spring-boot/3.3/maven-plugin/build-image.html)
+- [Spring Web](https://docs.spring.io/spring-boot/3.3/reference/web/servlet.html)
 
 ## 指南
 
-[使用 MySQL 访问数据](https://spring.io/guides/gs/accessing-data-mysql)
-[构建 RESTful Web 服务](https://spring.io/guides/gs/rest-service)
-[使用 Spring MVC 提供 Web 内容](https://spring.io/guides/gs/serving-web-content)
-[使用 Spring 构建 REST 服务](https://spring.io/guides/tutorials/rest)
+- [使用 MySQL 访问数据](https://spring.io/guides/gs/accessing-data-mysql)
+- [构建 RESTful Web 服务](https://spring.io/guides/gs/rest-service)
+- [使用 Spring MVC 提供 Web 内容](https://spring.io/guides/gs/serving-web-content)
+- [使用 Spring 构建 REST 服务](https://spring.io/guides/tutorials/rest)
 
 ## 许可证
 
-此项目使用 MIT 许可证 - 有关更多详细信息，请参阅 LICENSE 文件
+此项目使用[Apache-2.0 license](https://github.com/Encounter-U/RFID-Archive-Management-System?tab=Apache-2.0-1-ov-file#)
+许可证 - 有关更多详细信息，请参阅 LICENSE 文件
