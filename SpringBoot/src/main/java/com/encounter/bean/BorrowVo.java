@@ -1,11 +1,13 @@
 package com.encounter.bean;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 /**
  * @author Encounter
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class BorrowVo extends BsBookInfo
     {

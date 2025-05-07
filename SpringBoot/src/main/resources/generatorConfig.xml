@@ -6,7 +6,7 @@
     <context id="MySQLTables" targetRuntime="MyBatis3">
         <!-- mvn mybatis-generator:generate
         配置数据库位置  ，配置虚拟机上的mysql ip地址；不采用安全协议连接，否则无法逆向生成-->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
                         connectionURL="jdbc:mysql:/mysql.encounterdx.live:29265/rams?useSSL=false"
                         userId="encounter"
                         password="Encounter.">
