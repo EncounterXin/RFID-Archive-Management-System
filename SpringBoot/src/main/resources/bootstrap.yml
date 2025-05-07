@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: rams  # 应用名称，对应 Nacos DataId 前缀（如 rams-dev.yaml）
+  profiles:
+    active: dev  # 激活的环境配置（加载 rams-dev.yaml）
+  cloud:
+    nacos:
+      # 从nacos配置中心拉取信息
+      config:
+        server-addr: 47.94.194.185:20004  # Nacos 服务器地址（HTTP 端口）
+        file-extension: yaml  # 配置文件扩展名（支持 yaml 或 properties）
+        namespace: encounter-personal-rams  # Nacos 命名空间 ID（用于环境隔离）
+        username: encounter  # Nacos 登录用户名
+        password: 20020628  # Nacos 登录密码
+        extension-configs:
+          # 共享的数据库参数（非敏感，如驱动类、数据源类型）
+          - data-id: shared-mysql.yaml
+            group: SHARED
+            refresh: false  # 禁止动态刷新（防止连接池中断）
+          # 共享的 Redis 参数（非敏感，如超时时间）
+          - data-id: shared-redis.yaml
+            group: SHARED
+            refresh: false  # 禁止动态刷新（防止缓存服务中断）
+          # 可动态刷新的 MyBatis 策略（如日志级别）
+          - data-id: shared-mybatis.yaml
+            group: SHARED
+            refresh: true   # 允许动态刷新（无需重启服务）
+          # 可动态刷新的日志策略（如日志级别、输出格式）
+          - data-id: shared-logs.yaml
+            group: SHARED
+            refresh: true   # 允许动态刷新（实时调整日志）
+server:
+  port: 9999  # 应用启动端口

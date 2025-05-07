@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.94.194.185:20004 # Nacos 服务器地址
+        namespace: encounter-personal-rams # 如果有命名空间，填写对应的 ID
+        group: LOCAL # 配置分组，默认为 DEFAULT
+        username: encounter
+        password: 20020628
+      config:
+        group: LOCAL
