@@ -22,3 +22,19 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# STM相关忽略规则
+STM/OBJ/
+
+# 忽略所有编译生成文件
+*.o
+*.d
+*.crf
+*.axf
+*.htm
+*.HTM
+*.lnp
+*.sct
+*.dep
+*.hex
+*.build_log.htm
