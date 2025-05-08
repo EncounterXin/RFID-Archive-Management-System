@@ -41,6 +41,7 @@ module.exports = {
     proxy: {
       '/auth': {
         target: 'http://localhost:9999',
+        // target: 'http://100.113.3.89:9999',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
@@ -49,6 +50,7 @@ module.exports = {
       },
       '/gateway': {
         target: 'http://localhost:9999',
+        // target: 'http://100.113.3.89:9999',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
@@ -57,6 +59,7 @@ module.exports = {
       },
       '/user': {
         target: 'http://localhost:9999',
+        // target: 'http://100.113.3.89:9999',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
@@ -65,12 +68,13 @@ module.exports = {
       },
       '/admin': {
         target: 'http://localhost:9999',
+        // target: 'http://100.113.3.89:9999',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
           '^/admin': '/admin' // 通过pathRewrite重写地址，将前缀/api转为/
         }
-      },
+      }
 
     }
 

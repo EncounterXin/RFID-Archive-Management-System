@@ -208,7 +208,8 @@ void ESP_INIT( void )
 	while ( esp8266_send_cmd( "AT+CWMODE=1", "OK", 200 ) );   /* 关闭回显 */
 	delay_ms( 10 );
   printf("准备连接wifi\n");
-	while ( esp8266_send_cmd( "AT+CWJAP=\"Xiaomi 14\",\"Encounter@\"", "OK", 3000 ) )   /* 连接wifi */
+	//while ( esp8266_send_cmd( "AT+CWJAP=\"Xiaomi 14\",\"Encounter@\"", "OK", 3000 ) )   /* 连接wifi */
+	while ( esp8266_send_cmd( "AT+CWJAP=\"lzxgy8412\",\"88888888\"", "OK", 3000 ) )
 	{
 		printf("正在连接wifi，请稍后。。。\n");
 		delay_ms( 1000 );
@@ -218,6 +219,7 @@ void ESP_INIT( void )
 	printf( "正在准备连接服务器,请稍等...\r\n" );
 
 	//while ( esp8266_send_cmd( "AT+CIPSTART=\"TCP\",\"114.132.249.229\",9999", "OK", 3000 ) )
+	//while ( esp8266_send_cmd( "AT+CIPSTART=\"TCP\",\"192.168.28.237\",9999", "OK", 3000 ) )
 	while ( esp8266_send_cmd( "AT+CIPSTART=\"TCP\",\"47.94.194.185\",9999", "OK", 3000 ) )
 	{
 		printf( "正在测试是否连接服务器成功\r\n" );

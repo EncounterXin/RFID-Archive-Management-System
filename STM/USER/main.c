@@ -88,6 +88,7 @@ int main( void )
 				num = 0;
 				printf("发送保活报文 \r\n");
 				//发送保活报文
+				// u2_printf( "GET http://192.168.28.237:9999/user/test\r\n", p );
 				u2_printf( "GET http://47.94.194.185:9999/user/test\r\n", p );
 			} 
 		}
