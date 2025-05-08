@@ -7616,7 +7616,6 @@ documentation/
 !go.sum
 !go.mod
 
-!README.md
 !LICENSE
 
 # !Makefile

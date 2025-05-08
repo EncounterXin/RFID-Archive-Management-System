@@ -101,29 +101,31 @@ RFID档案管理系统前端基于Vue.js框架开发，采用了Element UI组件
 <details open>
 <summary><b>项目结构</b></summary>
 
-```
-src/
-├── api/                # API接口封装
-│   ├── book.js         # 档案相关接口
-│   ├── device.js       # 设备管理接口
-│   ├── file_sharing.js # 文件共享接口
-│   ├── sms_reminder.js # 提醒服务接口
-│   └── user.js         # 用户相关接口
-├── assets/             # 静态资源
-├── components/         # 公共组件
-├── icons/              # 图标资源
-├── layout/             # 布局组件
-├── router/             # 路由配置
-├── store/              # Vuex状态管理
-├── styles/             # 全局样式
-├── utils/              # 工具函数
-└── views/              # 页面视图
-    ├── book/           # 档案管理
-    ├── dashboard/      # 首页仪表盘
-    ├── file_sharing/   # 文件共享
-    ├── login/          # 登录页面
-    ├── mi_history/     # 历史记录管理
-    └── sms_reminder/   # 短信提醒服务
+```mermaid
+graph TD
+    Root[src] --> API[api]
+    Root --> Assets[assets]
+    Root --> Components[components]
+    Root --> Icons[icons]
+    Root --> Layout[layout]
+    Root --> Router[router]
+    Root --> Store[store]
+    Root --> Styles[styles]
+    Root --> Utils[utils]
+    Root --> Views[views]
+    
+    API --> BookApi[book.js<br>档案相关接口]
+    API --> DeviceApi[device.js<br>设备管理接口]
+    API --> FileSharingApi[file_sharing.js<br>文件共享接口]
+    API --> SmsReminderApi[sms_reminder.js<br>提醒服务接口]
+    API --> UserApi[user.js<br>用户相关接口]
+    
+    Views --> Book[book<br>档案管理]
+    Views --> Dashboard[dashboard<br>首页仪表盘]
+    Views --> FileSharing[file_sharing<br>文件共享]
+    Views --> Login[login<br>登录页面]
+    Views --> MiHistory[mi_history<br>历史记录管理]
+    Views --> SmsReminder[sms_reminder<br>短信提醒服务]
 ```
 </details>
 

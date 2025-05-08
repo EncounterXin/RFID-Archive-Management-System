@@ -78,41 +78,15 @@ RFID-Archive-Management-System 是一个基于 Spring Boot
 
 ### 技术架构图
 
-```
-+-------------------+
-|    客户端层        |
-|  (Browser/App)    |
-+--------+----------+
-         |
-         v
-+-------------------+
-|     前端层         |
-|     (Vue.js)      |
-+--------+----------+
-         |
-         v
-+-------------------+       +-------------------+
-|   Spring Cloud    |       |   Nacos           |
-|   Gateway         +------>+   服务注册/配置     |
-+--------+----------+       +-------------------+
-         |
-         v
-+-------------------+
-|   业务服务层        |
-|  (Spring Boot)    |
-+--------+----------+
-         |
-         v
-+-------------------+       +-------------------+
-|   数据访问层        |       |     Redis         |
-|   (MyBatis)       +------>+     缓存           |
-+--------+----------+       +-------------------+
-         |
-         v
-+-------------------+
-|    数据存储层       |
-|    (MySQL)        |
-+-------------------+
+```mermaid
+graph TD
+    Client[客户端层<br>Browser/App] --> Frontend[前端层<br>Vue.js]
+    Frontend --> Gateway[Spring Cloud<br>Gateway]
+    Gateway --> Nacos[Nacos<br>服务注册/配置]
+    Gateway --> Business[业务服务层<br>Spring Boot]
+    Business --> DataAccess[数据访问层<br>MyBatis]
+    DataAccess --> Redis[Redis<br>缓存]
+    DataAccess --> Storage[数据存储层<br>MySQL]
 ```
 
 ### 核心模块
@@ -205,48 +179,180 @@ RFID-Archive-Management-System 是一个基于 Spring Boot
 
 ### 目录结构
 
-```
-src/main/java/com/encounter/
-├── config/              # 配置类
-│   ├── CorsConfig.java  # 跨域配置
-│   ├── RedisConfig.java # Redis配置
-│   └── SecurityConfig.java # 安全配置
-├── controller/          # 控制器
-│   ├── UserController.java     # 用户管理
-│   ├── ArchiveController.java  # 档案管理
-│   ├── RfidController.java     # RFID管理
-│   └── BorrowController.java   # 借阅管理
-├── service/             # 服务层
-│   ├── impl/            # 服务实现
-│   ├── UserService.java      # 用户服务接口
-│   ├── ArchiveService.java   # 档案服务接口
-│   ├── RfidService.java      # RFID服务接口
-│   └── BorrowService.java    # 借阅服务接口
-├── mapper/              # MyBatis映射器
-├── model/               # 数据模型
-│   ├── entity/          # 实体类
-│   ├── dto/             # 数据传输对象
-│   ├── vo/              # 视图对象
-│   └── param/           # 请求参数对象
-├── utils/               # 工具类
-│   ├── JwtUtil.java     # JWT工具
-│   ├── RedisUtil.java   # Redis工具
-│   └── RfidUtil.java    # RFID工具
-├── exception/           # 异常处理
-│   ├── GlobalExceptionHandler.java # 全局异常处理
-│   └── BusinessException.java      # 业务异常
-├── interceptor/         # 拦截器
-├── task/                # 定时任务
-└── RAMSApplication.java # 启动类
+<details open>
+<summary><b>主要目录结构概览</b></summary>
 
-src/main/resources/
-├── application.yml      # 应用配置
-├── application-dev.yml  # 开发环境配置
-├── application-prod.yml # 生产环境配置
-├── bootstrap.yml        # 引导配置
-├── logback.xml          # 日志配置
-└── mapper/              # MyBatis XML映射文件
+```mermaid
+%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '18px', 'primaryColor': '#5a7d9a', 'primaryTextColor': '#fff' }}}%%
+graph LR
+    Root[src/main/java/com/encounter] --> Config[配置层]
+    Root --> Controller[控制器层]
+    Root --> Service[服务层]
+    Root --> Model[数据模型层]
+    Root --> Infra[基础设施层]
+    
+    Resources[src/main/resources] --> Config2[配置文件]
+    Resources --> Mapper[MyBatis映射文件]
+    
+    classDef rootNode fill:#5a7d9a,stroke:#333,stroke-width:2px,color:white,font-weight:bold,font-size:20px
+    classDef moduleNode fill:#7ca5c9,stroke:#333,stroke-width:2px,color:white,font-weight:bold,font-size:18px
+    
+    Root:::rootNode
+    Resources:::rootNode
+    Config:::moduleNode
+    Controller:::moduleNode
+    Service:::moduleNode
+    Model:::moduleNode
+    Infra:::moduleNode
+    Config2:::moduleNode
+    Mapper:::moduleNode
 ```
+
+</details>
+
+<details>
+<summary><b>配置层详情</b></summary>
+
+```mermaid
+%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '18px' }}}%%
+graph LR
+    Config[配置层] --> CorsConfig[CorsConfig.java<br>跨域配置]
+    Config --> RedisConfig[RedisConfig.java<br>Redis配置]
+    Config --> SecurityConfig[SecurityConfig.java<br>安全配置]
+    
+    classDef configNode fill:#f9d6c7,stroke:#333,stroke-width:2px,font-size:16px
+    Config:::configNode
+    CorsConfig:::configNode
+    RedisConfig:::configNode
+    SecurityConfig:::configNode
+```
+
+</details>
+
+<details>
+<summary><b>控制器层详情</b></summary>
+
+```mermaid
+%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '18px' }}}%%
+graph LR
+    Controller[控制器层] --> UserController[UserController.java<br>用户管理]
+    Controller --> ArchiveController[ArchiveController.java<br>档案管理]
+    Controller --> RfidController[RfidController.java<br>RFID管理]
+    Controller --> BorrowController[BorrowController.java<br>借阅管理]
+    
+    classDef controllerNode fill:#c7d6f9,stroke:#333,stroke-width:2px,font-size:16px
+    Controller:::controllerNode
+    UserController:::controllerNode
+    ArchiveController:::controllerNode
+    RfidController:::controllerNode
+    BorrowController:::controllerNode
+```
+
+</details>
+
+<details>
+<summary><b>服务层详情</b></summary>
+
+```mermaid
+%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '18px' }}}%%
+graph LR
+    Service[服务层] --> Impl[impl<br>服务实现]
+    Service --> UserService[UserService.java<br>用户服务接口]
+    Service --> ArchiveService[ArchiveService.java<br>档案服务接口]
+    Service --> RfidService[RfidService.java<br>RFID服务接口]
+    Service --> BorrowService[BorrowService.java<br>借阅服务接口]
+    
+    classDef serviceNode fill:#d6f9c7,stroke:#333,stroke-width:2px,font-size:16px
+    Service:::serviceNode
+    UserService:::serviceNode
+    ArchiveService:::serviceNode
+    RfidService:::serviceNode
+    BorrowService:::serviceNode
+    Impl:::serviceNode
+```
+
+</details>
+
+<details>
+<summary><b>数据模型层详情</b></summary>
+
+```mermaid
+%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '18px' }}}%%
+graph LR
+    Model[数据模型层] --> Entity[entity<br>实体类]
+    Model --> DTO[dto<br>数据传输对象]
+    Model --> VO[vo<br>视图对象]
+    Model --> Param[param<br>请求参数对象]
+    Model --> Mapper[mapper<br>MyBatis映射器]
+    
+    classDef modelNode fill:#f9f9c7,stroke:#333,stroke-width:2px,font-size:16px
+    Model:::modelNode
+    Entity:::modelNode
+    DTO:::modelNode
+    VO:::modelNode
+    Param:::modelNode
+    Mapper:::modelNode
+```
+
+</details>
+
+<details>
+<summary><b>基础设施层详情</b></summary>
+
+```mermaid
+%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '18px' }}}%%
+graph LR
+    Infra[基础设施层] --> Utils[工具类]
+    Infra --> Exception[异常处理]
+    Infra --> Interceptor[拦截器]
+    Infra --> Task[定时任务]
+    Infra --> App[RAMSApplication.java<br>启动类]
+    
+    Utils --> JwtUtil[JwtUtil.java<br>JWT工具]
+    Utils --> RedisUtil[RedisUtil.java<br>Redis工具]
+    Utils --> RfidUtil[RfidUtil.java<br>RFID工具]
+    
+    Exception --> GlobalExceptionHandler[GlobalExceptionHandler.java<br>全局异常处理]
+    Exception --> BusinessException[BusinessException.java<br>业务异常]
+    
+    classDef infraNode fill:#e6f7ff,stroke:#333,stroke-width:2px,font-size:16px
+    Infra:::infraNode
+    Utils:::infraNode
+    Exception:::infraNode
+    Interceptor:::infraNode
+    Task:::infraNode
+    App:::infraNode
+    JwtUtil:::infraNode
+    RedisUtil:::infraNode
+    RfidUtil:::infraNode
+    GlobalExceptionHandler:::infraNode
+    BusinessException:::infraNode
+```
+
+</details>
+
+<details>
+<summary><b>配置文件详情</b></summary>
+
+```mermaid
+%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '18px' }}}%%
+graph LR
+    Config[配置文件] --> AppYml[application.yml<br>应用配置]
+    Config --> DevYml[application-dev.yml<br>开发环境配置]
+    Config --> ProdYml[application-prod.yml<br>生产环境配置]
+    Config --> BootstrapYml[bootstrap.yml<br>引导配置]
+    Config --> LogbackXml[logback.xml<br>日志配置]
+    
+    classDef configFileNode fill:#f7e6ff,stroke:#333,stroke-width:2px,font-size:16px
+    Config:::configFileNode
+    AppYml:::configFileNode
+    DevYml:::configFileNode
+    ProdYml:::configFileNode
+    BootstrapYml:::configFileNode
+    LogbackXml:::configFileNode
+```
+
+</details>
 
 ### 关键类说明
 
@@ -456,34 +562,57 @@ CREATE TABLE `rfid_device`
 
 ### ER图
 
-```
-┌─────────┐      ┌─────────┐      ┌──────────┐
-│  User   │      │  Role   │      │ Archive  │
-├─────────┤      ├─────────┤      ├──────────┤
-│ id      │──┐   │ id      │      │ id       │
-│ username│  │   │ name    │      │ title    │
-│ password│  │   │ desc    │      │ category │
-│ ...     │  │   └─────────┘      │ rfid_tag │◄────┐
-└─────────┘  │                     └──────────┘     │
-             │                          ▲           │
-             │                          │           │
-             │   ┌──────────────┐       │           │
-             └──►│ BorrowRecord │───────┘           │
-                 ├──────────────┤                   │
-                 │ id           │                   │
-                 │ user_id      │                   │
-                 │ archive_id   │                   │
-                 │ status       │                   │
-                 └──────────────┘                   │
-                                                    │
-                 ┌──────────────┐                   │
-                 │ RfidDevice   │                   │
-                 ├──────────────┤                   │
-                 │ id           │                   │
-                 │ device_no    │                   │
-                 │ type         │                   │
-                 │ status       │───────────────────┘
-                 └──────────────┘
+```mermaid
+classDiagram
+    User "1" --> "*" BorrowRecord : 借阅
+    Archive "1" --> "*" BorrowRecord : 被借阅
+    RfidDevice --> Archive : 绑定
+    
+    class User {
+        id
+        username
+        password
+        real_name
+        phone
+        email
+        ...
+    }
+    
+    class Role {
+        id
+        name
+        description
+    }
+    
+    class Archive {
+        id
+        archive_no
+        title
+        category_id
+        description
+        location
+        rfid_tag
+        status
+    }
+    
+    class BorrowRecord {
+        id
+        user_id
+        archive_id
+        borrow_time
+        plan_return_time
+        actual_return_time
+        status
+    }
+    
+    class RfidDevice {
+        id
+        device_no
+        device_name
+        device_type
+        location
+        status
+    }
 ```
 
 ## 配置说明
