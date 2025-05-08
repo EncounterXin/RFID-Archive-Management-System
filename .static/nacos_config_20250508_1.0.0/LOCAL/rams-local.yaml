@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    username: username  # 数据库用户名（敏感信息）
+    password: pwd  # 数据库密码（敏感信息）
+    url: jdbc:mysql://ip:port/rams?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true  # 数据库连接地址
+    driver-class-name: com.mysql.cj.jdbc.Driver  # 数据库驱动类（已通过 shared-database.yaml 共享）
+    type: com.alibaba.druid.pool.DruidDataSource  # 数据源类型（已通过 shared-database.yaml 共享）
+  data:
+    redis:
+      host: ip  # Redis 主机地址（非敏感）
+      port: 6379  # Redis 端口（非敏感）
+      password: pwd  # Redis 密码（敏感信息,若未设置则删除）
+      timeout: 50000  # Redis 超时时间（已通过 shared-redis.yaml 共享）
+      jedis:
+        pool:
+          maxActive: 3  # Jedis 连接池最大活跃连接数
+          maxIdle: 3    # Jedis 连接池最大空闲连接数
+          minIdle: 1    # Jedis 连接池最小空闲连接数
+          maxWait: -1   # Jedis 连接池等待时间（-1 表示无限）
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  # Jackson 日期格式
+    time-zone: GMT+8  # Jackson 时区设置
+  servlet:
+    multipart:
+      max-request-size: 100MB  # 文件上传最大请求大小
+      max-file-size: 10MB     # 单个文件最大大小
+# 阿里云OSS配置
+aliyun:
+  oss:
+    accessKeyId: your own accessKeyId
+    accessKeySecret: your own accessKeySecret
+    endpoint: your own endpoint
+    bucketName: your own bucketName
+    uploadPath: your own uploadPath

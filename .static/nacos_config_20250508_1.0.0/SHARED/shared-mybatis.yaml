@@ -1,0 +1,6 @@
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # MyBatis 日志实现类
+    auto-mapping-behavior: partial
+    map-underscore-to-camel-case: true

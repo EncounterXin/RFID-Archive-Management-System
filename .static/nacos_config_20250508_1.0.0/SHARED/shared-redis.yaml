@@ -1,0 +1,4 @@
+spring:
+  data:
+    redis:
+      timeout: 50000  # Redis 连接超时时间（非敏感）
