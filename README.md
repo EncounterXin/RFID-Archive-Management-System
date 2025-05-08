@@ -12,6 +12,7 @@
 ![STM32](https://img.shields.io/badge/STM-32F10x-03234B)
 ![RC522](https://img.shields.io/badge/RFID-RC522-purple)
 ![ESP8266](https://img.shields.io/badge/WiFi-ESP8266-00A7E0)
+![Nacos](https://img.shields.io/badge/Nacos-2.2.x-0099FF)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue)
 
 <br/>
@@ -70,10 +71,10 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                       用户交互层 (Vue)                       │
+│                       用户交互层 (Vue)                        │
 │                                                             │
 │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐ │
-│  │ 用户认证   │  │ 档案管理   │  │ 借阅管理   │  │ 数据分析   │ │
+│  │ 用户认证   │   │ 档案管理   │  │ 借阅管理   │  │ 数据分析   │  │
 │  └───────────┘  └───────────┘  └───────────┘  └───────────┘ │
 └─────────────────────────────┬───────────────────────────────┘
                               │
@@ -82,13 +83,13 @@
 │                      业务处理层 (SpringBoot)                  │
 │                                                             │
 │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐ │
-│  │ 用户服务   │  │ 档案服务   │  │ 借阅服务   │  │ 数据服务   │ │
+│  │ 用户服务   │   │ 档案服务   │  │ 借阅服务   │  │ 数据服务    │ │
 │  └───────────┘  └───────────┘  └───────────┘  └───────────┘ │
 │                                                             │
-│  ┌───────────────────┐      ┌────────────────────────────┐ │
-│  │    数据访问层      │      │          通信服务           │ │
-│  │ (MyBatis + MySQL) │      │ (硬件接口 + RESTful API)    │ │
-│  └───────────────────┘      └────────────────────────────┘ │
+│  ┌───────────────────┐      ┌────────────────────────────┐  │
+│  │    数据访问层       │      │          通信服务           │  │
+│  │ (MyBatis + MySQL) │      │ (硬件接口 + RESTful API)    │  │
+│  └───────────────────┘      └────────────────────────────┘  │
 └─────────────────────────────┬───────────────────────────────┘
                               │
                               ▼
@@ -97,7 +98,7 @@
 │                                                             │
 │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐ │
 │  │ RFID读取   │  │ 数据处理   │  │ WiFi通信   │  │ 状态指示   │ │
-│  │ (RC522)    │  │ (STM32)   │  │ (ESP8266) │  │ (蜂鸣器)   │ │
+│  │ (RC522)   │  │ (STM32)   │  │ (ESP8266) │  │ (蜂鸣器)   │ │
 │  └───────────┘  └───────────┘  └───────────┘  └───────────┘ │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -110,19 +111,19 @@
 
 ```
 ┌─────────┐    RFID信号    ┌─────────┐    SPI    ┌─────────┐
-│  RFID卡  │───────────────▶│  RC522  │──────────▶│  STM32  │
-└─────────┘                └─────────┘           └────┬────┘
+│  RFID卡 │──────────────▶│  RC522  │──────────▶│  STM32  │
+└─────────┘                └─────────┘           └───┬────┘
                                                      │
                                                      │ UART
                                                      ▼
 ┌────────────┐   HTTP请求   ┌─────────┐    WiFi    ┌─────────┐
-│ SpringBoot │◀─────────────│  服务器  │◀───────────│ ESP8266 │
+│ SpringBoot │◀────────────│  服务器  │◀───────────│ ESP8266 │
 └──────┬─────┘              └─────────┘            └─────────┘
        │
        │ RESTful API
        ▼
 ┌─────────────┐
-│   Vue前端   │
+│   Vue前端    │
 └─────────────┘
 ```
 </details>
@@ -155,7 +156,7 @@
    - 系统验证卡号并处理归还业务逻辑
    - 更新借阅记录和档案状态
    - 前端展示归还成功/失败信息
-</details>
+   </details>
 
 <details>
 <summary><b>安全机制</b></summary>
@@ -189,7 +190,7 @@
   - 基于角色的访问控制
   - 操作审计日志
   - 敏感操作二次验证
-</details>
+  </details>
 
 <details>
 <summary><b>📚 档案管理</b></summary>
@@ -215,7 +216,7 @@
   - 区域和位置编码
   - 位置快速查询
   - 位置变更记录
-</details>
+  </details>
 
 <details>
 <summary><b>📑 借阅管理</b></summary>
@@ -243,7 +244,7 @@
   - 最大借阅数量限制
   - 借阅期限自定义
   - 超期处理规则
-</details>
+  </details>
 
 <details>
 <summary><b>📊 统计分析</b></summary>
@@ -271,7 +272,7 @@
   - 关键指标监控
   - 异常情况预警
   - 运营决策支持
-</details>
+  </details>
 
 <details>
 <summary><b>🔍 搜索功能</b></summary>
@@ -287,7 +288,7 @@
   - 模糊匹配
   - 关联推荐
   - 搜索历史记录
-</details>
+  </details>
 
 <details>
 <summary><b>🔔 通知与提醒</b></summary>
@@ -301,7 +302,7 @@
   - 重要通知发布
   - 系统维护提醒
   - 新功能介绍
-</details>
+  </details>
 
 ## 🚀 后端技术栈 (SpringBoot)
 
@@ -322,14 +323,14 @@
 │          └───────────────┼───────────────────┘            │
 │                          │                                │
 │  ┌────────────────────────────────────────────────────┐   │
-│  │                      通用组件                        │   │
+│  │                      通用组件                       │   │
 │  │                                                    │   │
 │  │  ┌────────────┐ ┌─────────┐ ┌───────────────────┐  │   │
-│  │  │ 异常处理    │ │ 拦截器   │ │    安全配置        │  │   │
+│  │  │ 异常处理    │ │ 拦截器   │  │    安全配置        │  │   │
 │  │  └────────────┘ └─────────┘ └───────────────────┘  │   │
 │  │                                                    │   │
 │  │  ┌────────────┐ ┌─────────┐ ┌───────────────────┐  │   │
-│  │  │ 缓存配置    │ │ 工具类   │ │    日志管理        │  │   │
+│  │  │ 缓存配置    │  │ 工具类   │ │    日志管理        │  │   │
 │  │  └────────────┘ └─────────┘ └───────────────────┘  │   │
 │  └────────────────────────────────────────────────────┘   │
 └───────────────────────────────────────────────────────────┘
@@ -434,28 +435,28 @@
 │                                                             │
 │  ┌───────────┐        ┌───────────────────┐                 │
 │  │ STM32F10x │◀─────▶│   核心功能模块      │                 │
-│  │  微控制器  │        │  (主程序逻辑)      │                 │
+│  │  微控制器  │        │  (主程序逻辑)      │                  │
 │  └─────┬─────┘        └───────────────────┘                 │
 │        │                                                    │
 │        │                                                    │
 │  ┌─────┴─────┐        ┌───────────┐        ┌───────────┐    │
-│  │  SPI接口   │◀─────▶│   RC522   │◀─────▶│  RFID卡    │    │
+│  │  SPI接口   │◀─────▶│   RC522   │◀─────▶│  RFID卡    │   │
 │  └───────────┘        │  读卡模块  │        └───────────┘    │
 │                       └───────────┘                         │
 │                                                             │
 │  ┌───────────┐        ┌───────────┐                         │
-│  │ UART接口  │◀─────▶│  ESP8266  │◀─────┐                  │
-│  └───────────┘        │ WiFi模块  │      │                  │
+│  │ UART接口  │◀─────▶│  ESP8266  │◀─────┐                   │
+│  └───────────┘        │ WiFi模块  │       │                  │
 │                       └───────────┘      │                  │
 │                                          │                  │
 │  ┌───────────┐                           │                  │
-│  │ GPIO接口  │◀─────┐                   │                  │
-│  └───────────┘      │                   │                  │
-│                     │                   │                  │
-│                 ┌───┴───────┐      ┌────┴────┐             │
+│  │ GPIO接口  │◀─────┐                    │                  │
+│  └───────────┘      │                   │                   │
+│                     │                   │                   │
+│                 ┌───┴───────┐      ┌────┴────┐              │
 │                 │   蜂鸣器   │      │  WiFi网络 │             │
-│                 │          │      │  路由器   │             │
-│                 └───────────┘      └─────────┘             │
+│                 │          │      │  路由器   │              │
+│                 └───────────┘      └─────────┘              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -519,7 +520,7 @@
 
 ```
 ┌───────────────┐                  ┌───────────────┐
-│   RC522模块    │                  │   ESP8266模块  │
+│   RC522模块    │                  │   ESP8266模块 │
 │               │                  │               │
 │  3.3V ────────┼──────────────────┼──── 3.3V      │
 │  GND  ────────┼──────────────────┼──── GND       │
@@ -554,18 +555,18 @@
 │                                                             │
 │  ┌───────────┐        ┌───────────────────┐                 │
 │  │  路由管理  │◀─────▶│      视图组件       │                 │
-│  │Vue Router │        │    (Pages/Views)   │                 │
+│  │Vue Router │        │    (Pages/Views)  │                 │
 │  └─────┬─────┘        └─────────┬─────────┘                 │
 │        │                        │                           │
 │        │                        │                           │
 │  ┌─────▼─────┐        ┌─────────▼─────────┐                 │
-│  │  状态管理  │◀─────▶│  UI组件和业务组件   │                 │
+│  │  状态管理  │◀─────▶ │  UI组件和业务组件   │                 │
 │  │   Vuex    │        │   (Components)    │                 │
 │  └─────┬─────┘        └─────────┬─────────┘                 │
 │        │                        │                           │
 │        │                        │                           │
 │  ┌─────▼─────┐        ┌─────────▼─────────┐                 │
-│  │  API服务  │◀─────▶│    工具和插件      │                 │
+│  │  API服务  │◀─────▶ │    工具和插件       │                 │
 │  │  Axios    │        │  (Utils/Plugins)  │                 │
 │  └───────────┘        └───────────────────┘                 │
 └─────────────────────────────────────────────────────────────┘
@@ -698,7 +699,7 @@ sequenceDiagram
   - Windows 10/11
   - Ubuntu 20.04+
   - macOS 11+
-</details>
+  </details>
 
 <details>
 <summary><b>安装步骤</b></summary>
@@ -763,6 +764,10 @@ CREATE DATABASE rams DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 2. 执行SQL脚本
 ```bash
+# 方法1：使用项目提供的SQL文件
+mysql -u username -p rams < .static/database/rams.sql
+
+# 方法2：使用SpringBoot目录下的SQL文件
 mysql -u username -p rams < SpringBoot/sql/init.sql
 ```
 
@@ -775,16 +780,67 @@ mysql -u username -p rams < SpringBoot/sql/init.sql
 2. 修改配置文件 `application.yml` 中的Redis连接信息
 </details>
 
+<details>
+<summary><b>Nacos配置</b></summary>
+
+项目使用Nacos作为配置中心和服务注册中心，`.static/nacos_config_20250508_1.0.0`目录包含了预配置的Nacos配置信息。
+
+### 环境配置
+
+提供了多种环境的配置：
+- **DEV** - 开发环境配置
+- **LOCAL** - 本地测试环境配置
+- **PROD** - 生产环境配置
+- **SHARED** - 共享配置
+
+### 导入配置
+
+1. 安装并启动Nacos服务器
+```bash
+# 下载Nacos
+wget https://github.com/alibaba/nacos/releases/download/2.2.3/nacos-server-2.2.3.zip
+unzip nacos-server-2.2.3.zip
+cd nacos/bin
+
+# 启动Nacos
+sh startup.sh -m standalone  # Linux/Mac
+startup.cmd -m standalone    # Windows
+```
+
+2. 访问Nacos控制台 `http://localhost:8848/nacos`，默认账号密码: nacos/nacos
+
+3. 通过Nacos控制台导入`.static/nacos_config_20250508_1.0.0`目录下的配置，或使用Nacos API进行配置导入
+
+### 配置应用
+
+在SpringBoot项目的`bootstrap.yaml`中配置Nacos连接信息：
+
+```yaml
+spring:
+  application:
+    name: RFID-Archive-Management-System
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        prefix: ${spring.application.name}
+        group: DEFAULT_GROUP
+```
+</details>
+
 ## 📸 系统部分功能截图
 
 <div align="center">
-<img src="https://encounter-rams.oss-cn-hangzhou.aliyuncs.com/.sys-run-pic/login.png" alt="登录页面" width="300"/><br/><center>登录页面</center>
-<img src="https://encounter-rams.oss-cn-hangzhou.aliyuncs.com/.sys-run-pic/home_page.png" alt="Dashboard" width="300"/><br/><center>首页</center>
-<img src="https://encounter-rams.oss-cn-hangzhou.aliyuncs.com/.sys-run-pic/user_manage.png" alt="Dashboard" width="300"/><br/><center>用户管理</center>
-<img src="https://encounter-rams.oss-cn-hangzhou.aliyuncs.com/.sys-run-pic/borrow_book.png" alt="Dashboard" width="300"/><br/><center>用户借阅</center>
-<img src="https://encounter-rams.oss-cn-hangzhou.aliyuncs.com/.sys-run-pic/book_manage.png" alt="档案管理" width="300"/><br/><center>档案管理</center>
+<img src="https://encounter-rams.oss-cn-hangzhou.aliyuncs.com/.sys-run-pic/login.png" alt="登录页面" width="300"/><br/><center>登录页面</center><br/>
+<img src="https://encounter-rams.oss-cn-hangzhou.aliyuncs.com/.sys-run-pic/home_page.png" alt="Dashboard" width="300"/><br/><center>首页</center><br/>
+<img src="https://encounter-rams.oss-cn-hangzhou.aliyuncs.com/.sys-run-pic/user_manage.png" alt="Dashboard" width="300"/><br/><center>用户管理</center><br/>
+<img src="https://encounter-rams.oss-cn-hangzhou.aliyuncs.com/.sys-run-pic/borrow_book.png" alt="Dashboard" width="300"/><br/><center>用户借阅</center><br/>
+<img src="https://encounter-rams.oss-cn-hangzhou.aliyuncs.com/.sys-run-pic/book_manage.png" alt="档案管理" width="300"/><br/><center>档案管理</center><br/>
 <img src="https://encounter-rams.oss-cn-hangzhou.aliyuncs.com/.sys-run-pic/echarts.png" alt="借阅管理" width="300"/><br/><center>图表展示</center>
-</div>
+</div><br/>
 
 ## 📞 联系方式
 
