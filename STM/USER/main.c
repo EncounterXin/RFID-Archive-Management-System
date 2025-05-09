@@ -12,7 +12,7 @@
 #include "rc522.h"
 extern __IO u16 data_value[6];
 u32		AD1_value, hy, trq, yw, AD5_value;
-//ÎÂ¶È±¨¾¯Öµ
+//ï¿½Â¶È±ï¿½ï¿½ï¿½Öµ
  double	temperatureLimit;
  int	flameLimit;
  int	gasLimit;
@@ -25,43 +25,43 @@ int		i;
 
 
 /**
- *   Á¬ÏßËµÃ÷£º
+ *   ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½
  *   1--SDA  <----->PA4
  *   2--SCK  <----->PA5
  *   3--MOSI <----->PA7
  *   4--MISO <----->PA6
- *   5--Ğü¿Õ
+ *   5--ï¿½ï¿½ï¿½ï¿½
  *   6--GND <----->GND
  *   7--RST <----->PB0
  *   8--VCC <----->VCC
  **/
 
 
-/* a9 a10 µ¥Æ¬»úÊäÈëÊä³ö  a2 a3 wifiÊ¹ÓÃ PB1 - ·äÃùÆ÷  PB8-±¨¾¯µÆ PB9-À¶µÆ PC15-·çÉÈ */
+/* a9 a10 ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  a2 a3 wifiÊ¹ï¿½ï¿½ PB1 - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  PB8-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PB9-ï¿½ï¿½ï¿½ï¿½ PC15-ï¿½ï¿½ï¿½ï¿½ */
 
 void init( void )
 {
-	DELAY_INIT(); //³õÊ¼»¯Ê±ÖÓ ÑÓ³Ùº¯ÊıÊ¹ÓÃ
-	NVIC_PriorityGroupConfig( NVIC_PriorityGroup_2 ); /* ÉèÖÃNVICÖĞ¶Ï·Ö×é */
-	USART1_INIT( 115200 );//´®¿Ú1³õÊ¼»¯
-	USART2_INIT( 115200 );//´®¿Ú2³õÊ¼»¯
+	DELAY_INIT(); //ï¿½ï¿½Ê¼ï¿½ï¿½Ê±ï¿½ï¿½ ï¿½Ó³Ùºï¿½ï¿½ï¿½Ê¹ï¿½ï¿½
+	NVIC_PriorityGroupConfig( NVIC_PriorityGroup_2 ); /* ï¿½ï¿½ï¿½ï¿½NVICï¿½Ğ¶Ï·ï¿½ï¿½ï¿½ */
+	USART1_INIT( 115200 );//ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Ê¼ï¿½ï¿½
+	USART2_INIT( 115200 );//ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½Ê¼ï¿½ï¿½
 
 
 
 
 //	ADC_INIT();
-	LED1_INIT(); /* ³õÊ¼»¯µÆºÍ·çÉÈ */
+	LED1_INIT(); /* ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ÆºÍ·ï¿½ï¿½ï¿½ */
 //	LED2_INIT();
 //	FAN_INIT();
 	//BUZZER_INIT();
-//	/* ±¨¾¯µÆÁÁ */
+//	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 //	GPIO_SetBits( GPIOB, GPIO_Pin_8 );
 
 	delay_ms(10000 );
 	ESP_INIT();
-//	ds18b20_state = DS18B20_Init(); //³õÊ¼»¯ÎÂ¶È´«¸ĞÆ÷
+//	ds18b20_state = DS18B20_Init(); //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Â¶È´ï¿½ï¿½ï¿½ï¿½ï¿½
 //	GPIO_SetBits( GPIOB, GPIO_Pin_9 );
-	printf("wifi³õÊ¼»¯³É¹¦");
+	printf("wifiï¿½ï¿½Ê¼ï¿½ï¿½ï¿½É¹ï¿½");
 		RC522_Init();    
 }
 
@@ -74,7 +74,7 @@ int main( void )
 	u8	p[100]		= "";
 //	char	cRes[512]	= "";
    init();
-	printf("ÏµÍ³³õÊ¼»¯³É¹¦\n");
+	printf("ÏµÍ³ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½É¹ï¿½\n");
 			GPIO_SetBits(GPIOB,GPIO_Pin_12);	
 		delay_ms( 500 );
 		GPIO_ResetBits(GPIOB,GPIO_Pin_12);	
@@ -86,10 +86,10 @@ int main( void )
 			num ++;
 			if(num>100){
 				num = 0;
-				printf("·¢ËÍ±£»î±¨ÎÄ \r\n");
-				//·¢ËÍ±£»î±¨ÎÄ
+				printf("å‘é€å¿ƒè·³åŒ… \r\n");
+				//å‘é€å¿ƒè·³åŒ…
 				// u2_printf( "GET http://192.168.28.237:9999/user/test\r\n", p );
-				u2_printf( "GET http://47.94.194.185:9999/user/test\r\n", p );
+				u2_printf( "GET http://server.rams.encounterdx.live/user/test\r\n", p );
 			} 
 		}
 }

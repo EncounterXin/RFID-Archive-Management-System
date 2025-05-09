@@ -40,8 +40,9 @@ module.exports = {
     // before: require('./mock/mock-server.js'),
     proxy: {
       '/auth': {
-        target: 'http://localhost:9999',
+        // target: 'http://localhost:9999',
         // target: 'http://100.113.3.89:9999',
+        target: 'http://server.rams.encounterdx.live/',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
@@ -49,8 +50,9 @@ module.exports = {
         }
       },
       '/gateway': {
-        target: 'http://localhost:9999',
+        // target: 'http://localhost:9999',
         // target: 'http://100.113.3.89:9999',
+        target: 'http://server.rams.encounterdx.live/',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
@@ -58,8 +60,9 @@ module.exports = {
         }
       },
       '/user': {
-        target: 'http://localhost:9999',
+        // target: 'http://localhost:9999',
         // target: 'http://100.113.3.89:9999',
+        target: 'http://server.rams.encounterdx.live/',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
@@ -67,8 +70,9 @@ module.exports = {
         }
       },
       '/admin': {
-        target: 'http://localhost:9999',
+        // target: 'http://localhost:9999',
         // target: 'http://100.113.3.89:9999',
+        target: 'http://server.rams.encounterdx.live/',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
