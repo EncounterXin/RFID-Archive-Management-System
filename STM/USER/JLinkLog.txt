@@ -9,7 +9,7 @@ Hardware: V7.00
 S/N: 20090928
 Feature(s): RDI,FlashDL,FlashBP,JFlash,GDBFull  returns O.K. (0272ms, 0554ms total)
 T1D98 000:619 JLINK_SetErrorOutHandler(...) (0000ms, 0554ms total)
-T1D98 000:619 JLINK_ExecCommand("ProjectFile = "C:\Users\Administrator\Desktop\’ΩΩ¢5∏ˆ¥Æø⁄\USER\JLinkSettings.ini"", ...)  returns 0x00 (0001ms, 0555ms total)
+T1D98 000:619 JLINK_ExecCommand("ProjectFile = "C:\Users\Administrator\Desktop\ÊàòËà∞5‰∏™‰∏≤Âè£\USER\JLinkSettings.ini"", ...)  returns 0x00 (0001ms, 0555ms total)
 T1D98 000:621 JLINK_ExecCommand("Device = STM32F103C8", ...)Device "STM32F103C8" selected.  returns 0x00 (0002ms, 0557ms total)
 T1D98 000:623 JLINK_ExecCommand("DisableConnectionTimeout", ...)  returns 0x01 (0000ms, 0557ms total)
 T1D98 000:623 JLINK_GetHardwareVersion()  returns 0x11170 (0000ms, 0557ms total)

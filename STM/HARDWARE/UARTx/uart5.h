@@ -7,10 +7,10 @@
 #include "stdio.h"	 	 
 #include "string.h"
 
-#define USART5_REC_LEN  			200  	//¶¨Òå×î´ó½ÓÊÕ×Ö½ÚÊı 200
+#define USART5_REC_LEN  			200  	//å®šä¹‰æœ€å¤§æ¥æ”¶å­—èŠ‚æ•° 200
 	  	
-extern u8  USART5_RX_BUF[USART5_REC_LEN]; //½ÓÊÕ»º³å,×î´óUSART_REC_LEN¸ö×Ö½Ú.Ä©×Ö½ÚÎª»»ĞĞ·û 
-extern u16 USART5_RX_STA;         		//½ÓÊÕ×´Ì¬±ê¼Ç
+extern u8  USART5_RX_BUF[USART5_REC_LEN]; //æ¥æ”¶ç¼“å†²,æœ€å¤§USART_REC_LENä¸ªå­—èŠ‚.æœ«å­—èŠ‚ä¸ºæ¢è¡Œç¬¦ 
+extern u16 USART5_RX_STA;         		//æ¥æ”¶çŠ¶æ€æ ‡è®°
 
 void uart5_Init(u32 baudrate);
 void uart5_test(void);

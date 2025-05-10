@@ -1,55 +1,55 @@
 #include "gpio.h"
 
 
-//PB3 ·ÇÕı³£Çé¿öµÆ
+//PB3 éæ­£å¸¸æƒ…å†µç¯
 void LED1_INIT(void)
 {
  
  GPIO_InitTypeDef  GPIO_InitStructure;
  	
- RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //Ê¹ÄÜPB¶Ë¿ÚÊ±ÖÓ
+ RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //ä½¿èƒ½PBç«¯å£æ—¶é’Ÿ
 	
- GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;				 //LED0-->PB12 ¶Ë¿ÚÅäÖÃ
- GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //ÍÆÍìÊä³ö
- GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO¿ÚËÙ¶ÈÎª50MHz
- GPIO_Init(GPIOB, &GPIO_InitStructure);					 //¸ù¾İÉè¶¨²ÎÊı³õÊ¼»¯GPIOB
- GPIO_ResetBits(GPIOB,GPIO_Pin_12);						 //PB12 Êä³ö¸ß
-//printf("³õÊ¼»¯pb3");
+ GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;				 //LED0-->PB12 ç«¯å£é…ç½®
+ GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //æ¨æŒ½è¾“å‡º
+ GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IOå£é€Ÿåº¦ä¸º50MHz
+ GPIO_Init(GPIOB, &GPIO_InitStructure);					 //æ ¹æ®è®¾å®šå‚æ•°åˆå§‹åŒ–GPIOB
+ GPIO_ResetBits(GPIOB,GPIO_Pin_12);						 //PB12 è¾“å‡ºé«˜
+//printf("åˆå§‹åŒ–pb3");
 
 }
 
 
-//PB4 Õı³£Çé¿öµÆ
+//PB4 æ­£å¸¸æƒ…å†µç¯
 void LED2_INIT(void)
 {
  
  GPIO_InitTypeDef  GPIO_InitStructure;
  	
- RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //Ê¹ÄÜPB¶Ë¿ÚÊ±ÖÓ
+ RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //ä½¿èƒ½PBç«¯å£æ—¶é’Ÿ
 	
- GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;				 //LED0-->PB12 ¶Ë¿ÚÅäÖÃ
- GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //ÍÆÍìÊä³ö
- GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO¿ÚËÙ¶ÈÎª50MHz
- GPIO_Init(GPIOB, &GPIO_InitStructure);					 //¸ù¾İÉè¶¨²ÎÊı³õÊ¼»¯GPIOB
- GPIO_ResetBits(GPIOB,GPIO_Pin_9);						 //PB12 Êä³ö¸ß
+ GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;				 //LED0-->PB12 ç«¯å£é…ç½®
+ GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //æ¨æŒ½è¾“å‡º
+ GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IOå£é€Ÿåº¦ä¸º50MHz
+ GPIO_Init(GPIOB, &GPIO_InitStructure);					 //æ ¹æ®è®¾å®šå‚æ•°åˆå§‹åŒ–GPIOB
+ GPIO_ResetBits(GPIOB,GPIO_Pin_9);						 //PB12 è¾“å‡ºé«˜
 
 
 }
 
 
-//PC14 ·çÉÈ
+//PC14 é£æ‰‡
 void FAN_INIT(void)
 {
  
  GPIO_InitTypeDef  GPIO_InitStructure;
  	
- RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);	 //Ê¹ÄÜPB¶Ë¿ÚÊ±ÖÓ
+ RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);	 //ä½¿èƒ½PBç«¯å£æ—¶é’Ÿ
 	
- GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;				 //LED0-->PB12 ¶Ë¿ÚÅäÖÃ
- GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //ÍÆÍìÊä³ö
- GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO¿ÚËÙ¶ÈÎª50MHz
- GPIO_Init(GPIOC, &GPIO_InitStructure);					 //¸ù¾İÉè¶¨²ÎÊı³õÊ¼»¯GPIOB
- GPIO_ResetBits(GPIOC,GPIO_Pin_15);						 //PB12 Êä³ö¸ß
+ GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;				 //LED0-->PB12 ç«¯å£é…ç½®
+ GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //æ¨æŒ½è¾“å‡º
+ GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IOå£é€Ÿåº¦ä¸º50MHz
+ GPIO_Init(GPIOC, &GPIO_InitStructure);					 //æ ¹æ®è®¾å®šå‚æ•°åˆå§‹åŒ–GPIOB
+ GPIO_ResetBits(GPIOC,GPIO_Pin_15);						 //PB12 è¾“å‡ºé«˜
 
 
 }
@@ -57,12 +57,12 @@ void FAN_INIT(void)
 void BUZZER_INIT(void){
  GPIO_InitTypeDef  GPIO_InitStructure;
  	
- RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //Ê¹ÄÜPB¶Ë¿ÚÊ±ÖÓ
+ RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //ä½¿èƒ½PBç«¯å£æ—¶é’Ÿ
 	
- GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;				 //LED0-->PB12 ¶Ë¿ÚÅäÖÃ
- GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //ÍÆÍìÊä³ö
- GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO¿ÚËÙ¶ÈÎª50MHz
- GPIO_Init(GPIOB, &GPIO_InitStructure);					 //¸ù¾İÉè¶¨²ÎÊı³õÊ¼»¯GPIOB
- GPIO_ResetBits(GPIOB,GPIO_Pin_1);						 //PB12 Êä³ö¸ß
+ GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;				 //LED0-->PB12 ç«¯å£é…ç½®
+ GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //æ¨æŒ½è¾“å‡º
+ GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IOå£é€Ÿåº¦ä¸º50MHz
+ GPIO_Init(GPIOB, &GPIO_InitStructure);					 //æ ¹æ®è®¾å®šå‚æ•°åˆå§‹åŒ–GPIOB
+ GPIO_ResetBits(GPIOB,GPIO_Pin_1);						 //PB12 è¾“å‡ºé«˜
 
 }

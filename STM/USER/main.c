@@ -12,7 +12,7 @@
 #include "rc522.h"
 extern __IO u16 data_value[6];
 u32		AD1_value, hy, trq, yw, AD5_value;
-//�¶ȱ���ֵ
+//温度报警值
  double	temperatureLimit;
  int	flameLimit;
  int	gasLimit;
@@ -25,43 +25,43 @@ int		i;
 
 
 /**
- *   ����˵����
+ *   连线说明：
  *   1--SDA  <----->PA4
  *   2--SCK  <----->PA5
  *   3--MOSI <----->PA7
  *   4--MISO <----->PA6
- *   5--����
+ *   5--悬空
  *   6--GND <----->GND
  *   7--RST <----->PB0
  *   8--VCC <----->VCC
  **/
 
 
-/* a9 a10 ��Ƭ���������  a2 a3 wifiʹ�� PB1 - ������  PB8-������ PB9-���� PC15-���� */
+/* a9 a10 单片机输入输出  a2 a3 wifi使用 PB1 - 蜂鸣器  PB8-报警灯 PB9-蓝灯 PC15-风扇 */
 
 void init( void )
 {
-	DELAY_INIT(); //��ʼ��ʱ�� �ӳٺ���ʹ��
-	NVIC_PriorityGroupConfig( NVIC_PriorityGroup_2 ); /* ����NVIC�жϷ��� */
-	USART1_INIT( 115200 );//����1��ʼ��
-	USART2_INIT( 115200 );//����2��ʼ��
+	DELAY_INIT(); //初始化时钟 延迟函数使用
+	NVIC_PriorityGroupConfig( NVIC_PriorityGroup_2 ); /* 设置NVIC中断分组 */
+	USART1_INIT( 115200 );//串口1初始化
+	USART2_INIT( 115200 );//串口2初始化
 
 
 
 
 //	ADC_INIT();
-	LED1_INIT(); /* ��ʼ���ƺͷ��� */
+	LED1_INIT(); /* 初始化灯和风扇 */
 //	LED2_INIT();
 //	FAN_INIT();
 	//BUZZER_INIT();
-//	/* �������� */
+//	/* 报警灯亮 */
 //	GPIO_SetBits( GPIOB, GPIO_Pin_8 );
 
 	delay_ms(10000 );
 	ESP_INIT();
-//	ds18b20_state = DS18B20_Init(); //��ʼ���¶ȴ�����
+//	ds18b20_state = DS18B20_Init(); //初始化温度传感器
 //	GPIO_SetBits( GPIOB, GPIO_Pin_9 );
-	printf("wifi��ʼ���ɹ�");
+	printf("wifi init success !!!");
 		RC522_Init();    
 }
 
@@ -74,7 +74,7 @@ int main( void )
 	u8	p[100]		= "";
 //	char	cRes[512]	= "";
    init();
-	printf("ϵͳ��ʼ���ɹ�\n");
+	printf("系统初始化成功\n");
 			GPIO_SetBits(GPIOB,GPIO_Pin_12);	
 		delay_ms( 500 );
 		GPIO_ResetBits(GPIOB,GPIO_Pin_12);	
@@ -86,8 +86,8 @@ int main( void )
 			num ++;
 			if(num>100){
 				num = 0;
-				printf("发送心跳包 \r\n");
-				//发送心跳包
+				printf("发送保活报文 \r\n");
+				//发送保活报文
 				// u2_printf( "GET http://192.168.28.237:9999/user/test\r\n", p );
 				u2_printf( "GET http://server.rams.encounterdx.live/user/test\r\n", p );
 			} 

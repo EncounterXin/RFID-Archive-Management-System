@@ -1,20 +1,20 @@
 #include "led.h"
 
 
-//³õÊ¼»¯PB12ÎªÊä³ö¿Ú.²¢Ê¹ÄÜÕâÁ½¸ö¿ÚµÄÊ±ÖÓ		    
-//LED IO³õÊ¼»¯
+//åˆå§‹åŒ–PB12ä¸ºè¾“å‡ºå£.å¹¶ä½¿èƒ½è¿™ä¸¤ä¸ªå£çš„æ—¶é’Ÿ		    
+//LED IOåˆå§‹åŒ–
 void LED_Init(void)
 {
  
  GPIO_InitTypeDef  GPIO_InitStructure;
  	
- RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //Ê¹ÄÜPB¶Ë¿ÚÊ±ÖÓ
+ RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //ä½¿èƒ½PBç«¯å£æ—¶é’Ÿ
 	
- GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;				 //LED0-->PB12 ¶Ë¿ÚÅäÖÃ
- GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //ÍÆÍìÊä³ö
- GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO¿ÚËÙ¶ÈÎª50MHz
- GPIO_Init(GPIOB, &GPIO_InitStructure);					 //¸ù¾İÉè¶¨²ÎÊı³õÊ¼»¯GPIOB
- GPIO_SetBits(GPIOB,GPIO_Pin_12);						 //PB12 Êä³ö¸ß
+ GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;				 //LED0-->PB12 ç«¯å£é…ç½®
+ GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //æ¨æŒ½è¾“å‡º
+ GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IOå£é€Ÿåº¦ä¸º50MHz
+ GPIO_Init(GPIOB, &GPIO_InitStructure);					 //æ ¹æ®è®¾å®šå‚æ•°åˆå§‹åŒ–GPIOB
+ GPIO_SetBits(GPIOB,GPIO_Pin_12);						 //PB12 è¾“å‡ºé«˜
 
 
 }

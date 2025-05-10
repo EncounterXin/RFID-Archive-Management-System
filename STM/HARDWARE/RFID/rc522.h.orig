@@ -4,41 +4,41 @@
 #include "stm32f10x.h"
 
 /////////////////////////////////////////////////////////////////////
-//MF522√¸¡Ó◊÷
+//MF522ÂëΩ‰ª§Â≠ó
 /////////////////////////////////////////////////////////////////////
-#define PCD_IDLE              0x00               //»°œ˚µ±«∞√¸¡Ó
-#define PCD_AUTHENT           0x0E               //—È÷§√‹‘ø
-#define PCD_RECEIVE           0x08               //Ω” ’ ˝æ›
-#define PCD_TRANSMIT          0x04               //∑¢ÀÕ ˝æ›
-#define PCD_TRANSCEIVE        0x0C               //∑¢ÀÕ≤¢Ω” ’ ˝æ›
-#define PCD_RESETPHASE        0x0F               //∏¥Œª
-#define PCD_CALCCRC           0x03               //CRCº∆À„
+#define PCD_IDLE              0x00               //ÂèñÊ∂àÂΩìÂâçÂëΩ‰ª§
+#define PCD_AUTHENT           0x0E               //È™åËØÅÂØÜÈí•
+#define PCD_RECEIVE           0x08               //Êé•Êî∂Êï∞ÊçÆ
+#define PCD_TRANSMIT          0x04               //ÂèëÈÄÅÊï∞ÊçÆ
+#define PCD_TRANSCEIVE        0x0C               //ÂèëÈÄÅÂπ∂Êé•Êî∂Êï∞ÊçÆ
+#define PCD_RESETPHASE        0x0F               //Â§ç‰Ωç
+#define PCD_CALCCRC           0x03               //CRCËÆ°ÁÆó
 
 /////////////////////////////////////////////////////////////////////
-//Mifare_Oneø®∆¨√¸¡Ó◊÷
+//Mifare_OneÂç°ÁâáÂëΩ‰ª§Â≠ó
 /////////////////////////////////////////////////////////////////////
-#define PICC_REQIDL           0x26               //—∞ÃÏœﬂ«¯ƒ⁄Œ¥Ω¯»Î–›√ﬂ◊¥Ã¨
-#define PICC_REQALL           0x52               //—∞ÃÏœﬂ«¯ƒ⁄»´≤øø®
-#define PICC_ANTICOLL1        0x93               //∑¿≥Â◊≤
-#define PICC_ANTICOLL2        0x95               //∑¿≥Â◊≤
-#define PICC_AUTHENT1A        0x60               //—È÷§A√‹‘ø
-#define PICC_AUTHENT1B        0x61               //—È÷§B√‹‘ø
-#define PICC_READ             0x30               //∂¡øÈ
-#define PICC_WRITE            0xA0               //–¥øÈ
-#define PICC_DECREMENT        0xC0               //ø€øÓ
-#define PICC_INCREMENT        0xC1               //≥‰÷µ
-#define PICC_RESTORE          0xC2               //µ˜øÈ ˝æ›µΩª∫≥Â«¯
-#define PICC_TRANSFER         0xB0               //±£¥Êª∫≥Â«¯÷– ˝æ›
-#define PICC_HALT             0x50               //–›√ﬂ
+#define PICC_REQIDL           0x26               //ÂØªÂ§©Á∫øÂå∫ÂÜÖÊú™ËøõÂÖ•‰ºëÁú†Áä∂ÊÄÅ
+#define PICC_REQALL           0x52               //ÂØªÂ§©Á∫øÂå∫ÂÜÖÂÖ®ÈÉ®Âç°
+#define PICC_ANTICOLL1        0x93               //Èò≤ÂÜ≤Êíû
+#define PICC_ANTICOLL2        0x95               //Èò≤ÂÜ≤Êíû
+#define PICC_AUTHENT1A        0x60               //È™åËØÅAÂØÜÈí•
+#define PICC_AUTHENT1B        0x61               //È™åËØÅBÂØÜÈí•
+#define PICC_READ             0x30               //ËØªÂùó
+#define PICC_WRITE            0xA0               //ÂÜôÂùó
+#define PICC_DECREMENT        0xC0               //Êâ£Ê¨æ
+#define PICC_INCREMENT        0xC1               //ÂÖÖÂÄº
+#define PICC_RESTORE          0xC2               //Ë∞ÉÂùóÊï∞ÊçÆÂà∞ÁºìÂÜ≤Âå∫
+#define PICC_TRANSFER         0xB0               //‰øùÂ≠òÁºìÂÜ≤Âå∫‰∏≠Êï∞ÊçÆ
+#define PICC_HALT             0x50               //‰ºëÁú†
 
 /////////////////////////////////////////////////////////////////////
-//MF522 FIFO≥§∂»∂®“Â
+//MF522 FIFOÈïøÂ∫¶ÂÆö‰πâ
 /////////////////////////////////////////////////////////////////////
 #define DEF_FIFO_LENGTH       64                 //FIFO size=64byte
 #define MAXRLEN  18
 
 /////////////////////////////////////////////////////////////////////
-//MF522ºƒ¥Ê∆˜∂®“Â
+//MF522ÂØÑÂ≠òÂô®ÂÆö‰πâ
 /////////////////////////////////////////////////////////////////////
 // PAGE 0
 #define     RFU00                 0x00    
@@ -110,7 +110,7 @@
 #define     RFU3F		  		        0x3F
 
 /////////////////////////////////////////////////////////////////////
-//∫ÕMF522Õ®—∂ ±∑µªÿµƒ¥ÌŒÛ¥˙¬Î
+//ÂíåMF522ÈÄöËÆØÊó∂ËøîÂõûÁöÑÈîôËØØ‰ª£Á†Å
 /////////////////////////////////////////////////////////////////////
 #define 	MI_OK                 0
 #define 	MI_NOTAGERR           (1)
@@ -144,7 +144,7 @@ void SPI1_Init(void);
 #define CLR_RC522RST  GPIOF->BRR=0X02
 
 
-/***********************RC522 ∫Ø ˝∫Í∂®“Â**********************/
+/***********************RC522 ÂáΩÊï∞ÂÆèÂÆö‰πâ**********************/
 #define          RC522_CS_Enable()         GPIO_ResetBits ( GPIOA, GPIO_Pin_4 )
 #define          RC522_CS_Disable()        GPIO_SetBits ( GPIOA, GPIO_Pin_4 )
 
@@ -160,17 +160,17 @@ void SPI1_Init(void);
 #define          RC522_MISO_GET()          GPIO_ReadInputDataBit ( GPIOA, GPIO_Pin_6 )
 
 void             RC522_Handel               (void);
-void             RC522_Init                 ( void );                       //≥ı ºªØ
-void             PcdReset                   ( void );                       //∏¥Œª
-void             M500PcdConfigISOType       ( u8 type );                    //π§◊˜∑Ω Ω
-char             PcdRequest                 ( u8 req_code, u8 * pTagType ); //—∞ø®
-char             PcdAnticoll                ( u8 * pSnr);                   //∂¡ø®∫≈
+void             RC522_Init                 ( void );                       //ÂàùÂßãÂåñ
+void             PcdReset                   ( void );                       //Â§ç‰Ωç
+void             M500PcdConfigISOType       ( u8 type );                    //Â∑•‰ΩúÊñπÂºè
+char             PcdRequest                 ( u8 req_code, u8 * pTagType ); //ÂØªÂç°
+char             PcdAnticoll                ( u8 * pSnr);                   //ËØªÂç°Âè∑
 
 char             PcdSelect                  ( u8 * pSnr );
 char             PcdAuthState               ( u8 ucAuth_mode, u8 ucAddr, u8 * pKey, u8 * pSnr );
 char             PcdWrite                   ( u8 ucAddr, u8 * pData );
 char             PcdRead                    ( u8 ucAddr, u8 * pData );
-void ShowID(u8 *p);	 //œ‘ æø®µƒø®∫≈£¨“‘ Æ¡˘Ω¯÷∆œ‘ æ
+void ShowID(u8 *p);	 //ÊòæÁ§∫Âç°ÁöÑÂç°Âè∑Ôºå‰ª•ÂçÅÂÖ≠ËøõÂà∂ÊòæÁ§∫
 
 extern char* POINT_LNG;
 extern char* POINT_LAT;

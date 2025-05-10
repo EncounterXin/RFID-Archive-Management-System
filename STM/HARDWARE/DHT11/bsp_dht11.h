@@ -11,21 +11,21 @@
 #define DHT11_PIN     GPIO_Pin_12                  
 #define DHT11_PORT		GPIOB
 
-//´ø²Îºê£¬¿ÉÒÔÏñÄÚÁªº¯ÊıÒ»ÑùÊ¹ÓÃ,Êä³ö¸ßµçÆ½»òµÍµçÆ½
+//å¸¦å‚å®ï¼Œå¯ä»¥åƒå†…è”å‡½æ•°ä¸€æ ·ä½¿ç”¨,è¾“å‡ºé«˜ç”µå¹³æˆ–ä½ç”µå¹³
 #define DHT11_DATA_OUT(a)	if (a)	\
 					GPIO_SetBits(DHT11_PORT,DHT11_PIN);\
 					else		\
 					GPIO_ResetBits(DHT11_PORT,DHT11_PIN)
- //¶ÁÈ¡Òı½ÅµÄµçÆ½
+ //è¯»å–å¼•è„šçš„ç”µå¹³
 #define  DHT11_DATA_IN()	   GPIO_ReadInputDataBit(DHT11_PORT,DHT11_PIN)
 
 typedef struct
 {
-	uint8_t  humi_int;		//Êª¶ÈµÄÕûÊı²¿·Ö
-	uint8_t  humi_deci;	 	//Êª¶ÈµÄĞ¡Êı²¿·Ö
-	uint8_t  temp_int;	 	//ÎÂ¶ÈµÄÕûÊı²¿·Ö
-	uint8_t  temp_deci;	 	//ÎÂ¶ÈµÄĞ¡Êı²¿·Ö
-	uint8_t  check_sum;	 	//Ğ£ÑéºÍ
+	uint8_t  humi_int;		//æ¹¿åº¦çš„æ•´æ•°éƒ¨åˆ†
+	uint8_t  humi_deci;	 	//æ¹¿åº¦çš„å°æ•°éƒ¨åˆ†
+	uint8_t  temp_int;	 	//æ¸©åº¦çš„æ•´æ•°éƒ¨åˆ†
+	uint8_t  temp_deci;	 	//æ¸©åº¦çš„å°æ•°éƒ¨åˆ†
+	uint8_t  check_sum;	 	//æ ¡éªŒå’Œ
 		                 
 }DHT11_Data_TypeDef;
 

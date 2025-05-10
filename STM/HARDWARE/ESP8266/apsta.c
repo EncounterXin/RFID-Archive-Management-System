@@ -6,14 +6,14 @@
 
 /************************************************
 *
-*  ×÷Õß£ºdaodanjishui
+*  ä½œè€…ï¼šdaodanjishui
 ************************************************/
 
 /*
- * ATK-ESP8266 AP+STAÄ£Ê½²âÊÔ
- * ÓÃÓÚ²âÊÔTCP/UDPÁ¬½Ó
- * ·µ»ØÖµ:0,Õı³£
- *    ÆäËû,´íÎó´úÂë
+ * ATK-ESP8266 AP+STAæ¨¡å¼æµ‹è¯•
+ * ç”¨äºæµ‹è¯•TCP/UDPè¿æ¥
+ * è¿”å›å€¼:0,æ­£å¸¸
+ *    å…¶ä»–,é”™è¯¯ä»£ç 
  */
 u8 atk_8266_apsta_test1( void )
 {
@@ -26,48 +26,48 @@ u8 atk_8266_apsta_test1( void )
  * u8 netpro;
  * u8 key=0;
  * u8 timex=0;
- * u8 ipbuf[16];        //IP»º´æ
+ * u8 ipbuf[16];        //IPç¼“å­˜
  */
 	u8 p[100] = "AT+CIPSTART=\"TCP\",\"192.168.0.123\",8080";
 
-	u16 t = 2;                      /* ¼ÓËÙµÚÒ»´Î»ñÈ¡Á´½Ó×´Ì¬ */
+	u16 t = 2;                      /* åŠ é€Ÿç¬¬ä¸€æ¬¡è·å–é“¾æ¥çŠ¶æ€ */
 
 	u16	rlen		= 0;
-	u8	constate	= 0;    /* Á¬½Ó×´Ì¬ */
+	u8	constate	= 0;    /* è¿æ¥çŠ¶æ€ */
 
-	printf( "ATK-ESP AP+STAÄ£Ê½²âÊÔ\r\n" );
-
-	delay_ms( 500 );
+	printf( "ATK-ESP AP+STAæ¨¡å¼æµ‹è¯•\r\n" );
 
 	delay_ms( 500 );
 
-	printf( "ÕıÔÚ×¼±¸Á¬½Ó·şÎñÆ÷,ÇëÉÔµÈ...\r\n" );
+	delay_ms( 500 );
+
+	printf( "æ­£åœ¨å‡†å¤‡è¿æ¥æœåŠ¡å™¨,è¯·ç¨ç­‰...\r\n" );
 
 	while ( atk_8266_send_cmd( p, "OK", 200 ) )
 	{
-		printf( "ÕıÔÚ²âÊÔÊÇ·ñÁ¬½Ó·şÎñÆ÷³É¹¦\r\n" );
+		printf( "æ­£åœ¨æµ‹è¯•æ˜¯å¦è¿æ¥æœåŠ¡å™¨æˆåŠŸ\r\n" );
 	}
 
 
-	atk_8266_get_ip( 15, 65 ); /* »ñÈ¡ IP */
+	atk_8266_get_ip( 15, 65 ); /* è·å– IP */
 
 
 	strcpy( p, "AT+CIPMODE=1" );
-	printf( "ÕıÔÚ¿ªÆôÍ¸´«,ÇëÉÔµÈ...\r\n" );
+	printf( "æ­£åœ¨å¼€å¯é€ä¼ ,è¯·ç¨ç­‰...\r\n" );
 	while ( atk_8266_send_cmd( p, "OK", 200 ) )
 	{
-		printf( "ÕıÔÚ²âÊÔ¿ªÆôÍ¸´«ÊÇ·ñ³É¹¦\r\n" );
+		printf( "æ­£åœ¨æµ‹è¯•å¼€å¯é€ä¼ æ˜¯å¦æˆåŠŸ\r\n" );
 
 	}
-	printf( "Í¸´«³É¹¦\r\n" );
+	printf( "é€ä¼ æˆåŠŸ\r\n" );
 	strcpy( p, "AT+CIPSEND" );
-	printf( "ÕıÔÚ×¼±¸·¢ËÍÊı¾İ,ÇëÉÔµÈ...\r\n" );
+	printf( "æ­£åœ¨å‡†å¤‡å‘é€æ•°æ®,è¯·ç¨ç­‰...\r\n" );
 	while ( atk_8266_send_cmd( p, "OK", 200 ) )
 	{
-		printf( "ÕıÔÚ²âÊÔ×¼±¸·¢ËÍÊı¾İÊÇ·ñ³É¹¦\r\n" );
+		printf( "æ­£åœ¨æµ‹è¯•å‡†å¤‡å‘é€æ•°æ®æ˜¯å¦æˆåŠŸ\r\n" );
 	
 	}
-	printf( "×¼±¸·¢ËÍÊı¾İ³É¹¦\r\n" );
+	printf( "å‡†å¤‡å‘é€æ•°æ®æˆåŠŸ\r\n" );
 
 
 	USART2_RX_STA = 0;
@@ -76,32 +76,32 @@ u8 atk_8266_apsta_test1( void )
 	{
 		/*
 		 *
-		 *  /*µ÷ÓÃRead_DHT11¶ÁÈ¡ÎÂÊª¶È£¬Èô³É¹¦ÔòÊä³ö¸ÃĞÅÏ¢*/
+		 *  /*è°ƒç”¨Read_DHT11è¯»å–æ¸©æ¹¿åº¦ï¼Œè‹¥æˆåŠŸåˆ™è¾“å‡ºè¯¥ä¿¡æ¯*/
 		if ( Read_DHT11( &DHT11_Data ) != SUCCESS )
 		{
-			printf( "\r\n¶ÁÈ¡DHT11³É¹¦!\r\n\r\nÊª¶ÈÎª%d.%d £¥RH £¬ÎÂ¶ÈÎª %d.%d¡æ \r\n", \
+			printf( "\r\nè¯»å–DHT11æˆåŠŸ!\r\n\r\næ¹¿åº¦ä¸º%d.%d ï¼…RH ï¼Œæ¸©åº¦ä¸º %d.%dâ„ƒ \r\n", \
 				DHT11_Data.humi_int, DHT11_Data.humi_deci, DHT11_Data.temp_int, DHT11_Data.temp_deci );
 
-			sprintf( (char *) p, "GET http://192.168.0.123:8080/test?signname=%d HTTP/1.1\r\nHost:192.168.0.123:8080\r\nConnection: keep-alive\r\n\r\n", DHT11_Data.humi_int );     /* ²âÊÔÊı¾İ */
-			/* sprintf((char*)p,"POST http://192.168.253.1:8080/test_TCP/ChatServlet?action=sendMessage&user=Robot1&speak=Humidity:%d.%dRH---Temperature:%d.%d'C HTTP/1.1\r\nHost:192.168.253.1:8080\r\nConnection: keep-alive\r\n\r\n",DHT11_Data.humi_int,DHT11_Data.humi_deci,DHT11_Data.temp_int,DHT11_Data.temp_deci);//²âÊÔÊı¾İ */
+			sprintf( (char *) p, "GET http://192.168.0.123:8080/test?signname=%d HTTP/1.1\r\nHost:192.168.0.123:8080\r\nConnection: keep-alive\r\n\r\n", DHT11_Data.humi_int );     /* æµ‹è¯•æ•°æ® */
+			/* sprintf((char*)p,"POST http://192.168.253.1:8080/test_TCP/ChatServlet?action=sendMessage&user=Robot1&speak=Humidity:%d.%dRH---Temperature:%d.%d'C HTTP/1.1\r\nHost:192.168.253.1:8080\r\nConnection: keep-alive\r\n\r\n",DHT11_Data.humi_int,DHT11_Data.humi_deci,DHT11_Data.temp_int,DHT11_Data.temp_deci);//æµ‹è¯•æ•°æ® */
 		}else  {
 			printf( "Read DHT11 ERROR!\r\n" );
-			sprintf( (char *) p, "hello,T=0 ,H=0\r\n" );                                                                                                                            /* ·µ»ØÎÂÊª¶È¸ø·şÎñÆ÷ */
+			sprintf( (char *) p, "hello,T=0 ,H=0\r\n" );                                                                                                                            /* è¿”å›æ¸©æ¹¿åº¦ç»™æœåŠ¡å™¨ */
 		}
 
 
-		//·¢ËÍ²âÊÔÊı¾İ
-		printf( "ÕıÔÚ·¢ËÍÊı¾İ,ÇëÉÔµÈ...\r\n" );
+		//å‘é€æµ‹è¯•æ•°æ®
+		printf( "æ­£åœ¨å‘é€æ•°æ®,è¯·ç¨ç­‰...\r\n" );
 		strcpy( p, "GET /test" );
 
 		atk_8266_send_cmd( p, "OK", 200 );
 
 
 		t++;
-		//»ñÈ¡·µ»ØµÄÊı¾İ
+		//è·å–è¿”å›çš„æ•°æ®
 		delay_ms( 1000 );			
 		rlen			= USART2_RX_STA & 0X7FFF;  
-		printf( "ÊÕµ½%d×Ö½Ú,ÄÚÈİÈçÏÂ\r\n", rlen );
+		printf( "æ”¶åˆ°%då­—èŠ‚,å†…å®¹å¦‚ä¸‹\r\n", rlen );
 		printf( "---%s\r\n", USART2_RX_BUF );
 			
 	}

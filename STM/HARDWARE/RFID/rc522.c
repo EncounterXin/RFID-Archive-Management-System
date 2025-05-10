@@ -5,28 +5,28 @@
 #include "string.h"
 
 //////////////////////////////////////////////////////////
-// M1����Ϊ16��������ÿ���������ĸ��飨��0����1����2����3�����
-// ��16��������64���鰴���Ե�ַ���Ϊ��0~63
-// ��0�������Ŀ�0�������Ե�ַ0�飩�����ڴ�ų��̴��룬�Ѿ��̻����ɸ���
-// ÿ�������Ŀ�0����1����2Ϊ���ݿ飬�����ڴ������
-// ÿ�������Ŀ�3Ϊ���ƿ飨���Ե�ַΪ:��3����7����11.....����������A����ȡ���ơ�����B��
+// M1卡分为16个扇区，每个扇区由四个块（块0、块1、块2、块3）组成
+// 将16个扇区的64个块按绝对地址编号为：0~63
+// 第0个扇区的块0（即绝对地址0块），用于存放厂商代码，已经固化不可更改
+// 每个扇区的块0、块1、块2为数据块，可用于存放数据
+// 每个扇区的块3为控制块（绝对地址为:块3、块7、块11.....）包括密码A，存取控制、密码B等
 
 /*******************************
-*����˵����
+*连线说明：
 *1--SDA  <----->PA4
 *2--SCK  <----->PA5
 *3--MOSI <----->PA7
 *4--MISO <----->PA6
-*5--����
+*5--悬空
 *6--GND <----->GND
 *7--RST <----->PB0
 *8--VCC <----->VCC
 ************************************/
 
-/*ȫ�ֱ���*/
-unsigned char CT[2];//������
-unsigned char SN[4]; //����
-unsigned char RFID[16];			//���RFID
+/*全局变量*/
+unsigned char CT[2];//卡类型
+unsigned char SN[4]; //卡号
+unsigned char RFID[16];			//存放RFID
 unsigned char lxl_bit=0;
 unsigned char card1_bit=0;
 unsigned char card2_bit=0;
@@ -41,7 +41,7 @@ unsigned char card_4[4]= {5,158,10,136};
 u8 KEY[6]= {0xff,0xff,0xff,0xff,0xff,0xff};
 u8 AUDIO_OPEN[6] = {0xAA, 0x07, 0x02, 0x00, 0x09, 0xBC};
 unsigned char RFID1[16]= {0x00,0x00,0x00,0x00,0x00,0x00,0xff,0x07,0x80,0x29,0xff,0xff,0xff,0xff,0xff,0xff};
-/*��������*/
+/*函数声明*/
 unsigned char status;
 unsigned char s=0x08;
 
@@ -52,21 +52,21 @@ unsigned char s=0x08;
 void RC522_Handel(void)
 {
 
-    status = PcdRequest(PICC_REQALL,CT);//Ѱ��
+    status = PcdRequest(PICC_REQALL,CT);//寻卡
 
     //printf("\r\nstatus>>>>>>%d\r\n", status);
-//	printf("��ʼ\r\n");
+//	printf("开始\r\n");
 
-    if(status==MI_OK)// Ѱ���ɹ�
+    if(status==MI_OK)// 寻卡成功
     {
         status=MI_ERR;
-        status = PcdAnticoll(SN);// ����ײ
+        status = PcdAnticoll(SN);// 防冲撞
     }
 
-    if (status==MI_OK)// ����ײ�ɹ�
+    if (status==MI_OK)// 防冲撞成功
     {
         status=MI_ERR;
-        ShowID(SN); // ���ڴ�ӡ����ID��
+        ShowID(SN); // 串口打印卡的ID号
 
         if((SN[0]==lxl[0])&&(SN[1]==lxl[1])&&(SN[2]==lxl[2])&&(SN[3]==lxl[3]))
         {
@@ -107,19 +107,19 @@ void RC522_Handel(void)
     {
 
     }
-    if(status==MI_OK)//ѡ���ɹ�
+    if(status==MI_OK)//选卡成功
     {
 
         status=MI_ERR;
         status =PcdAuthState(0x60,0x09,KEY,SN);
     }
-    if(status==MI_OK)//��֤�ɹ�
+    if(status==MI_OK)//验证成功
     {
         status=MI_ERR;
         status=PcdRead(s,RFID);
     }
 
-    if(status==MI_OK)//�����ɹ�
+    if(status==MI_OK)//读卡成功
     {
         status=MI_ERR;
         delay_ms(100);
@@ -137,54 +137,54 @@ void RC522_Init ( void )
 
     PcdReset ();
 
-    M500PcdConfigISOType ( 'A' );//���ù�����ʽ
+    M500PcdConfigISOType ( 'A' );//设置工作方式
 
 }
 
 void SPI1_Init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
-    RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE );//PORTA��Bʱ��ʹ��
+    RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE );//PORTA、B时钟使能
 
     // CS
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //�������
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO���ٶ�Ϊ50MHz
-    GPIO_Init(GPIOA, &GPIO_InitStructure);					 //�����趨������ʼ��PF0��PF1
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO口速度为50MHz
+    GPIO_Init(GPIOA, &GPIO_InitStructure);					 //根据设定参数初始化PF0、PF1
 
     // SCK
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //�������
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO���ٶ�Ϊ50MHz
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO口速度为50MHz
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
     // MISO
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING; 		 //�������
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO���ٶ�Ϊ50MHz
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING; 		 //推挽输出
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO口速度为50MHz
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
     // MOSI
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //�������
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO���ٶ�Ϊ50MHz
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO口速度为50MHz
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
     // RST
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //�������
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO���ٶ�Ϊ50MHz
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO口速度为50MHz
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 
 }
 
 
 /*
- * ��������SPI_RC522_SendByte
- * ����  ����RC522����1 Byte ����
- * ����  ��byte��Ҫ���͵�����
- * ����  : RC522���ص�����
- * ����  ���ڲ�����
+ * 函数名：SPI_RC522_SendByte
+ * 描述  ：向RC522发送1 Byte 数据
+ * 输入  ：byte，要发送的数据
+ * 返回  : RC522返回的数据
+ * 调用  ：内部调用
  */
 void SPI_RC522_SendByte ( u8 byte )
 {
@@ -215,11 +215,11 @@ void SPI_RC522_SendByte ( u8 byte )
 
 
 /*
- * ��������SPI_RC522_ReadByte
- * ����  ����RC522����1 Byte ����
- * ����  ����
- * ����  : RC522���ص�����
- * ����  ���ڲ�����
+ * 函数名：SPI_RC522_ReadByte
+ * 描述  ：从RC522发送1 Byte 数据
+ * 输入  ：无
+ * 返回  : RC522返回的数据
+ * 调用  ：内部调用
  */
 u8 SPI_RC522_ReadByte ( void )
 {
@@ -253,11 +253,11 @@ u8 SPI_RC522_ReadByte ( void )
 
 
 /*
- * ��������ReadRawRC
- * ����  ����RC522�Ĵ���
- * ����  ��ucAddress���Ĵ�����ַ
- * ����  : �Ĵ����ĵ�ǰֵ
- * ����  ���ڲ�����
+ * 函数名：ReadRawRC
+ * 描述  ：读RC522寄存器
+ * 输入  ：ucAddress，寄存器地址
+ * 返回  : 寄存器的当前值
+ * 调用  ：内部调用
  */
 u8 ReadRawRC ( u8 ucAddress )
 {
@@ -279,12 +279,12 @@ u8 ReadRawRC ( u8 ucAddress )
 
 
 /*
- * ��������WriteRawRC
- * ����  ��дRC522�Ĵ���
- * ����  ��ucAddress���Ĵ�����ַ
- *         ucValue��д��Ĵ�����ֵ
- * ����  : ��
- * ����  ���ڲ�����
+ * 函数名：WriteRawRC
+ * 描述  ：写RC522寄存器
+ * 输入  ：ucAddress，寄存器地址
+ *         ucValue，写入寄存器的值
+ * 返回  : 无
+ * 调用  ：内部调用
  */
 void WriteRawRC ( u8 ucAddress, u8 ucValue )
 {
@@ -303,12 +303,12 @@ void WriteRawRC ( u8 ucAddress, u8 ucValue )
 
 
 /*
- * ��������SetBitMask
- * ����  ����RC522�Ĵ�����λ
- * ����  ��ucReg���Ĵ�����ַ
- *         ucMask����λֵ
- * ����  : ��
- * ����  ���ڲ�����
+ * 函数名：SetBitMask
+ * 描述  ：对RC522寄存器置位
+ * 输入  ：ucReg，寄存器地址
+ *         ucMask，置位值
+ * 返回  : 无
+ * 调用  ：内部调用
  */
 void SetBitMask ( u8 ucReg, u8 ucMask )
 {
@@ -322,12 +322,12 @@ void SetBitMask ( u8 ucReg, u8 ucMask )
 
 
 /*
- * ��������ClearBitMask
- * ����  ����RC522�Ĵ�����λ
- * ����  ��ucReg���Ĵ�����ַ
- *         ucMask����λֵ
- * ����  : ��
- * ����  ���ڲ�����
+ * 函数名：ClearBitMask
+ * 描述  ：对RC522寄存器清位
+ * 输入  ：ucReg，寄存器地址
+ *         ucMask，清位值
+ * 返回  : 无
+ * 调用  ：内部调用
  */
 void ClearBitMask ( u8 ucReg, u8 ucMask )
 {
@@ -341,11 +341,11 @@ void ClearBitMask ( u8 ucReg, u8 ucMask )
 
 
 /*
- * ��������PcdAntennaOn
- * ����  ����������
- * ����  ����
- * ����  : ��
- * ����  ���ڲ�����
+ * 函数名：PcdAntennaOn
+ * 描述  ：开启天线
+ * 输入  ：无
+ * 返回  : 无
+ * 调用  ：内部调用
  */
 void PcdAntennaOn ( void )
 {
@@ -360,11 +360,11 @@ void PcdAntennaOn ( void )
 
 
 /*
- * ��������PcdAntennaOff
- * ����  ����������
- * ����  ����
- * ����  : ��
- * ����  ���ڲ�����
+ * 函数名：PcdAntennaOff
+ * 描述  ：开启天线
+ * 输入  ：无
+ * 返回  : 无
+ * 调用  ：内部调用
  */
 void PcdAntennaOff ( void )
 {
@@ -375,11 +375,11 @@ void PcdAntennaOff ( void )
 
 
 /*
- * ��������PcdRese
- * ����  ����λRC522
- * ����  ����
- * ����  : ��
- * ����  ���ⲿ����
+ * 函数名：PcdRese
+ * 描述  ：复位RC522
+ * 输入  ：无
+ * 返回  : 无
+ * 调用  ：外部调用
  */
 void PcdReset ( void )
 {
@@ -401,27 +401,27 @@ void PcdReset ( void )
 
     delay_us ( 1 );
 
-    WriteRawRC ( ModeReg, 0x3D );            //���巢�ͺͽ��ճ���ģʽ ��Mifare��ͨѶ��CRC��ʼֵ0x6363
+    WriteRawRC ( ModeReg, 0x3D );            //定义发送和接收常用模式 和Mifare卡通讯，CRC初始值0x6363
 
-    WriteRawRC ( TReloadRegL, 30 );          //16λ��ʱ����λ
-    WriteRawRC ( TReloadRegH, 0 );			 //16λ��ʱ����λ
+    WriteRawRC ( TReloadRegL, 30 );          //16位定时器低位
+    WriteRawRC ( TReloadRegH, 0 );			 //16位定时器高位
 
-    WriteRawRC ( TModeReg, 0x8D );		      //�����ڲ���ʱ��������
+    WriteRawRC ( TModeReg, 0x8D );		      //定义内部定时器的设置
 
-    WriteRawRC ( TPrescalerReg, 0x3E );			 //���ö�ʱ����Ƶϵ��
+    WriteRawRC ( TPrescalerReg, 0x3E );			 //设置定时器分频系数
 
-    WriteRawRC ( TxAutoReg, 0x40 );				   //���Ʒ����ź�Ϊ100%ASK
+    WriteRawRC ( TxAutoReg, 0x40 );				   //调制发送信号为100%ASK
 
 
 }
 
 
 /*
- * ��������M500PcdConfigISOType
- * ����  ������RC522�Ĺ�����ʽ
- * ����  ��ucType��������ʽ
- * ����  : ��
- * ����  ���ⲿ����
+ * 函数名：M500PcdConfigISOType
+ * 描述  ：设置RC522的工作方式
+ * 输入  ：ucType，工作方式
+ * 返回  : 无
+ * 调用  ：外部调用
  */
 void M500PcdConfigISOType ( u8 ucType )
 {
@@ -445,7 +445,7 @@ void M500PcdConfigISOType ( u8 ucType )
 
         delay_us ( 2 );
 
-        PcdAntennaOn ();//������
+        PcdAntennaOn ();//开天线
 
     }
 
@@ -453,16 +453,16 @@ void M500PcdConfigISOType ( u8 ucType )
 
 
 /*
- * ��������PcdComMF522
- * ����  ��ͨ��RC522��ISO14443��ͨѶ
- * ����  ��ucCommand��RC522������
- *         pInData��ͨ��RC522���͵���Ƭ������
- *         ucInLenByte���������ݵ��ֽڳ���
- *         pOutData�����յ��Ŀ�Ƭ��������
- *         pOutLenBit���������ݵ�λ����
- * ����  : ״ֵ̬
- *         = MI_OK���ɹ�
- * ����  ���ڲ�����
+ * 函数名：PcdComMF522
+ * 描述  ：通过RC522和ISO14443卡通讯
+ * 输入  ：ucCommand，RC522命令字
+ *         pInData，通过RC522发送到卡片的数据
+ *         ucInLenByte，发送数据的字节长度
+ *         pOutData，接收到的卡片返回数据
+ *         pOutLenBit，返回数据的位长度
+ * 返回  : 状态值
+ *         = MI_OK，成功
+ * 调用  ：内部调用
  */
 char PcdComMF522 ( u8 ucCommand, u8 * pInData, u8 ucInLenByte, u8 * pOutData, u32 * pOutLenBit )
 {
@@ -475,14 +475,14 @@ char PcdComMF522 ( u8 ucCommand, u8 * pInData, u8 ucInLenByte, u8 * pOutData, u3
 
     switch ( ucCommand )
     {
-    case PCD_AUTHENT:		//Mifare��֤
-        ucIrqEn   = 0x12;		//���������ж�����ErrIEn  ���������ж�IdleIEn
-        ucWaitFor = 0x10;		//��֤Ѱ���ȴ�ʱ�� ��ѯ�����жϱ�־λ
+    case PCD_AUTHENT:		//Mifare认证
+        ucIrqEn   = 0x12;		//允许错误中断请求ErrIEn  允许空闲中断IdleIEn
+        ucWaitFor = 0x10;		//认证寻卡等待时候 查询空闲中断标志位
         break;
 
-    case PCD_TRANSCEIVE:		//���շ��� ���ͽ���
-        ucIrqEn   = 0x77;		//����TxIEn RxIEn IdleIEn LoAlertIEn ErrIEn TimerIEn
-        ucWaitFor = 0x30;		//Ѱ���ȴ�ʱ�� ��ѯ�����жϱ�־λ�� �����жϱ�־λ
+    case PCD_TRANSCEIVE:		//接收发送 发送接收
+        ucIrqEn   = 0x77;		//允许TxIEn RxIEn IdleIEn LoAlertIEn ErrIEn TimerIEn
+        ucWaitFor = 0x30;		//寻卡等待时候 查询接收中断标志位与 空闲中断标志位
         break;
 
     default:
@@ -490,49 +490,49 @@ char PcdComMF522 ( u8 ucCommand, u8 * pInData, u8 ucInLenByte, u8 * pOutData, u3
 
     }
 
-    WriteRawRC ( ComIEnReg, ucIrqEn | 0x80 );		//IRqInv��λ�ܽ�IRQ��Status1Reg��IRqλ��ֵ�෴
-    ClearBitMask ( ComIrqReg, 0x80 );			//Set1��λ����ʱ��CommIRqReg������λ����
-    WriteRawRC ( CommandReg, PCD_IDLE );		//д��������
-    SetBitMask ( FIFOLevelReg, 0x80 );			//��λFlushBuffer����ڲ�FIFO�Ķ���дָ���Լ�ErrReg��BufferOvfl��־λ�����
+    WriteRawRC ( ComIEnReg, ucIrqEn | 0x80 );		//IRqInv置位管脚IRQ与Status1Reg的IRq位的值相反
+    ClearBitMask ( ComIrqReg, 0x80 );			//Set1该位清零时，CommIRqReg的屏蔽位清零
+    WriteRawRC ( CommandReg, PCD_IDLE );		//写空闲命令
+    SetBitMask ( FIFOLevelReg, 0x80 );			//置位FlushBuffer清除内部FIFO的读和写指针以及ErrReg的BufferOvfl标志位被清除
 
     for ( ul = 0; ul < ucInLenByte; ul ++ )
-        WriteRawRC ( FIFODataReg, pInData [ ul ] );    		//д���ݽ�FIFOdata
+        WriteRawRC ( FIFODataReg, pInData [ ul ] );    		//写数据进FIFOdata
 
-    WriteRawRC ( CommandReg, ucCommand );					//д����
+    WriteRawRC ( CommandReg, ucCommand );					//写命令
 
 
     if ( ucCommand == PCD_TRANSCEIVE )
-        SetBitMask(BitFramingReg,0x80);  				//StartSend��λ�������ݷ��� ��λ���շ�����ʹ��ʱ����Ч
+        SetBitMask(BitFramingReg,0x80);  				//StartSend置位启动数据发送 该位与收发命令使用时才有效
 
-    ul = 1000;//����ʱ��Ƶ�ʵ���������M1�����ȴ�ʱ��25ms
+    ul = 1000;//根据时钟频率调整，操作M1卡最大等待时间25ms
 
-    do 														//��֤ ��Ѱ���ȴ�ʱ��
+    do 														//认证 与寻卡等待时间
     {
-        ucN = ReadRawRC ( ComIrqReg );							//��ѯ�¼��ж�
+        ucN = ReadRawRC ( ComIrqReg );							//查询事件中断
         ul --;
-    } while ( ( ul != 0 ) && ( ! ( ucN & 0x01 ) ) && ( ! ( ucN & ucWaitFor ) ) );		//�˳�����i=0,��ʱ���жϣ���д��������
+    } while ( ( ul != 0 ) && ( ! ( ucN & 0x01 ) ) && ( ! ( ucN & ucWaitFor ) ) );		//退出条件i=0,定时器中断，与写空闲命令
 
-    ClearBitMask ( BitFramingReg, 0x80 );					//��������StartSendλ
+    ClearBitMask ( BitFramingReg, 0x80 );					//清理允许StartSend位
 
     if ( ul != 0 )
     {
-        if ( ! (( ReadRawRC ( ErrorReg ) & 0x1B )) )			//�������־�Ĵ���BufferOfI CollErr ParityErr ProtocolErr
+        if ( ! (( ReadRawRC ( ErrorReg ) & 0x1B )) )			//读错误标志寄存器BufferOfI CollErr ParityErr ProtocolErr
         {
             cStatus = MI_OK;
 
-            if ( ucN & ucIrqEn & 0x01 )					//�Ƿ�����ʱ���ж�
+            if ( ucN & ucIrqEn & 0x01 )					//是否发生定时器中断
                 cStatus = MI_NOTAGERR;
 
             if ( ucCommand == PCD_TRANSCEIVE )
             {
-                ucN = ReadRawRC ( FIFOLevelReg );			//��FIFO�б�����ֽ���
+                ucN = ReadRawRC ( FIFOLevelReg );			//读FIFO中保存的字节数
 
-                ucLastBits = ReadRawRC ( ControlReg ) & 0x07;	//�����յ����ֽڵ���Чλ��
+                ucLastBits = ReadRawRC ( ControlReg ) & 0x07;	//最后接收到得字节的有效位数
 
                 if ( ucLastBits )
-                    * pOutLenBit = ( ucN - 1 ) * 8 + ucLastBits;   	//N���ֽ�����ȥ1�����һ���ֽڣ�+���һλ��λ�� ��ȡ����������λ��
+                    * pOutLenBit = ( ucN - 1 ) * 8 + ucLastBits;   	//N个字节数减去1（最后一个字节）+最后一位的位数 读取到的数据总位数
                 else
-                    * pOutLenBit = ucN * 8;   					//�����յ����ֽ������ֽ���Ч
+                    * pOutLenBit = ucN * 8;   					//最后接收到的字节整个字节有效
 
                 if ( ucN == 0 )
                     ucN = 1;
@@ -558,20 +558,20 @@ char PcdComMF522 ( u8 ucCommand, u8 * pInData, u8 ucInLenByte, u8 * pOutData, u3
 
 
 /*
- * ��������PcdRequest
- * ����  ��Ѱ��
- * ����  ��ucReq_code��Ѱ����ʽ
- *                     = 0x52��Ѱ��Ӧ�������з���14443A��׼�Ŀ�
- *                     = 0x26��Ѱδ��������״̬�Ŀ�
- *         pTagType����Ƭ���ʹ���
- *                   = 0x4400��Mifare_UltraLight
- *                   = 0x0400��Mifare_One(S50)
- *                   = 0x0200��Mifare_One(S70)
- *                   = 0x0800��Mifare_Pro(X))
- *                   = 0x4403��Mifare_DESFire
- * ����  : ״ֵ̬
- *         = MI_OK���ɹ�
- * ����  ���ⲿ����
+ * 函数名：PcdRequest
+ * 描述  ：寻卡
+ * 输入  ：ucReq_code，寻卡方式
+ *                     = 0x52，寻感应区内所有符合14443A标准的卡
+ *                     = 0x26，寻未进入休眠状态的卡
+ *         pTagType，卡片类型代码
+ *                   = 0x4400，Mifare_UltraLight
+ *                   = 0x0400，Mifare_One(S50)
+ *                   = 0x0200，Mifare_One(S70)
+ *                   = 0x0800，Mifare_Pro(X))
+ *                   = 0x4403，Mifare_DESFire
+ * 返回  : 状态值
+ *         = MI_OK，成功
+ * 调用  ：外部调用
  */
 char PcdRequest ( u8 ucReq_code, u8 * pTagType )
 {
@@ -579,15 +579,15 @@ char PcdRequest ( u8 ucReq_code, u8 * pTagType )
     u8 ucComMF522Buf [ MAXRLEN ];
     u32 ulLen;
 
-    ClearBitMask ( Status2Reg, 0x08 );	//����ָʾMIFARECyptol��Ԫ��ͨ�Լ����п�������ͨ�ű����ܵ����
-    WriteRawRC ( BitFramingReg, 0x07 );	//	���͵����һ���ֽڵ� ��λ
-    SetBitMask ( TxControlReg, 0x03 );	//TX1,TX2�ܽŵ�����źŴ��ݾ����͵��Ƶ�13.56�������ز��ź�
+    ClearBitMask ( Status2Reg, 0x08 );	//清理指示MIFARECyptol单元接通以及所有卡的数据通信被加密的情况
+    WriteRawRC ( BitFramingReg, 0x07 );	//	发送的最后一个字节的 七位
+    SetBitMask ( TxControlReg, 0x03 );	//TX1,TX2管脚的输出信号传递经发送调制的13.56的能量载波信号
 
-    ucComMF522Buf [ 0 ] = ucReq_code;		//���� ��Ƭ������
+    ucComMF522Buf [ 0 ] = ucReq_code;		//存入 卡片命令字
 
-    cStatus = PcdComMF522 ( PCD_TRANSCEIVE,	ucComMF522Buf, 1, ucComMF522Buf, & ulLen );	//Ѱ��
+    cStatus = PcdComMF522 ( PCD_TRANSCEIVE,	ucComMF522Buf, 1, ucComMF522Buf, & ulLen );	//寻卡
 
-    if ( ( cStatus == MI_OK ) && ( ulLen == 0x10 ) )	//Ѱ���ɹ����ؿ�����
+    if ( ( cStatus == MI_OK ) && ( ulLen == 0x10 ) )	//寻卡成功返回卡类型
     {
         * pTagType = ucComMF522Buf [ 0 ];
         * ( pTagType + 1 ) = ucComMF522Buf [ 1 ];
@@ -602,12 +602,12 @@ char PcdRequest ( u8 ucReq_code, u8 * pTagType )
 
 
 /*
- * ��������PcdAnticoll
- * ����  ������ײ
- * ����  ��pSnr����Ƭ���кţ�4�ֽ�
- * ����  : ״ֵ̬
- *         = MI_OK���ɹ�
- * ����  ���ⲿ����
+ * 函数名：PcdAnticoll
+ * 描述  ：防冲撞
+ * 输入  ：pSnr，卡片序列号，4字节
+ * 返回  : 状态值
+ *         = MI_OK，成功
+ * 调用  ：外部调用
  */
 char PcdAnticoll ( u8 * pSnr )
 {
@@ -616,20 +616,20 @@ char PcdAnticoll ( u8 * pSnr )
     u8 ucComMF522Buf [ MAXRLEN ];
     u32 ulLen;
 
-    ClearBitMask ( Status2Reg, 0x08 );		//��MFCryptol Onλ ֻ�гɹ�ִ��MFAuthent����󣬸�λ������λ
-    WriteRawRC ( BitFramingReg, 0x00);		//�����Ĵ��� ֹͣ�շ�
-    ClearBitMask ( CollReg, 0x80 );			//��ValuesAfterColl���н��յ�λ�ڳ�ͻ�����
+    ClearBitMask ( Status2Reg, 0x08 );		//清MFCryptol On位 只有成功执行MFAuthent命令后，该位才能置位
+    WriteRawRC ( BitFramingReg, 0x00);		//清理寄存器 停止收发
+    ClearBitMask ( CollReg, 0x80 );			//清ValuesAfterColl所有接收的位在冲突后被清除
 
-    ucComMF522Buf [ 0 ] = 0x93;	//��Ƭ����ͻ����
+    ucComMF522Buf [ 0 ] = 0x93;	//卡片防冲突命令
     ucComMF522Buf [ 1 ] = 0x20;
 
-    cStatus = PcdComMF522 ( PCD_TRANSCEIVE, ucComMF522Buf, 2, ucComMF522Buf, & ulLen);//�뿨Ƭͨ��
+    cStatus = PcdComMF522 ( PCD_TRANSCEIVE, ucComMF522Buf, 2, ucComMF522Buf, & ulLen);//与卡片通信
 
-    if ( cStatus == MI_OK)		//ͨ�ųɹ�
+    if ( cStatus == MI_OK)		//通信成功
     {
         for ( uc = 0; uc < 4; uc ++ )
         {
-            * ( pSnr + uc )  = ucComMF522Buf [ uc ];			//����UID
+            * ( pSnr + uc )  = ucComMF522Buf [ uc ];			//读出UID
             ucSnr_check ^= ucComMF522Buf [ uc ];
         }
 
@@ -646,13 +646,13 @@ char PcdAnticoll ( u8 * pSnr )
 
 
 /*
- * ��������CalulateCRC
- * ����  ����RC522����CRC16
- * ����  ��pIndata������CRC16������
- *         ucLen������CRC16�������ֽڳ���
- *         pOutData����ż�������ŵ��׵�ַ
- * ����  : ��
- * ����  ���ڲ�����
+ * 函数名：CalulateCRC
+ * 描述  ：用RC522计算CRC16
+ * 输入  ：pIndata，计算CRC16的数组
+ *         ucLen，计算CRC16的数组字节长度
+ *         pOutData，存放计算结果存放的首地址
+ * 返回  : 无
+ * 调用  ：内部调用
  */
 void CalulateCRC ( u8 * pIndata, u8 ucLen, u8 * pOutData )
 {
@@ -684,12 +684,12 @@ void CalulateCRC ( u8 * pIndata, u8 ucLen, u8 * pOutData )
 
 
 /*
- * ��������PcdSelect
- * ����  ��ѡ����Ƭ
- * ����  ��pSnr����Ƭ���кţ�4�ֽ�
- * ����  : ״ֵ̬
- *         = MI_OK���ɹ�
- * ����  ���ⲿ����
+ * 函数名：PcdSelect
+ * 描述  ：选定卡片
+ * 输入  ：pSnr，卡片序列号，4字节
+ * 返回  : 状态值
+ *         = MI_OK，成功
+ * 调用  ：外部调用
  */
 char PcdSelect ( u8 * pSnr )
 {
@@ -725,17 +725,17 @@ char PcdSelect ( u8 * pSnr )
 
 
 /*
- * ��������PcdAuthState
- * ����  ����֤��Ƭ����
- * ����  ��ucAuth_mode��������֤ģʽ
- *                     = 0x60����֤A��Կ
- *                     = 0x61����֤B��Կ
- *         u8 ucAddr�����ַ
- *         pKey������
- *         pSnr����Ƭ���кţ�4�ֽ�
- * ����  : ״ֵ̬
- *         = MI_OK���ɹ�
- * ����  ���ⲿ����
+ * 函数名：PcdAuthState
+ * 描述  ：验证卡片密码
+ * 输入  ：ucAuth_mode，密码验证模式
+ *                     = 0x60，验证A密钥
+ *                     = 0x61，验证B密钥
+ *         u8 ucAddr，块地址
+ *         pKey，密码
+ *         pSnr，卡片序列号，4字节
+ * 返回  : 状态值
+ *         = MI_OK，成功
+ * 调用  ：外部调用
  */
 char PcdAuthState ( u8 ucAuth_mode, u8 ucAddr, u8 * pKey, u8 * pSnr )
 {
@@ -770,13 +770,13 @@ char PcdAuthState ( u8 ucAuth_mode, u8 ucAddr, u8 * pKey, u8 * pSnr )
 
 
 /*
- * ��������PcdWrite
- * ����  ��д���ݵ�M1��һ��
- * ����  ��u8 ucAddr�����ַ
- *         pData��д������ݣ�16�ֽ�
- * ����  : ״ֵ̬
- *         = MI_OK���ɹ�
- * ����  ���ⲿ����
+ * 函数名：PcdWrite
+ * 描述  ：写数据到M1卡一块
+ * 输入  ：u8 ucAddr，块地址
+ *         pData，写入的数据，16字节
+ * 返回  : 状态值
+ *         = MI_OK，成功
+ * 调用  ：外部调用
  */
 char PcdWrite ( u8 ucAddr, u8 * pData )
 {
@@ -813,13 +813,13 @@ char PcdWrite ( u8 ucAddr, u8 * pData )
 
 
 /*
- * ��������PcdRead
- * ����  ����ȡM1��һ������
- * ����  ��u8 ucAddr�����ַ
- *         pData�����������ݣ�16�ֽ�
- * ����  : ״ֵ̬
- *         = MI_OK���ɹ�
- * ����  ���ⲿ����
+ * 函数名：PcdRead
+ * 描述  ：读取M1卡一块数据
+ * 输入  ：u8 ucAddr，块地址
+ *         pData，读出的数据，16字节
+ * 返回  : 状态值
+ *         = MI_OK，成功
+ * 调用  ：外部调用
  */
 char PcdRead ( u8 ucAddr, u8 * pData )
 {
@@ -849,12 +849,12 @@ char PcdRead ( u8 ucAddr, u8 * pData )
 
 
 /*
- * ��������PcdHalt
- * ����  �����Ƭ��������״̬
- * ����  ����
- * ����  : ״ֵ̬
- *         = MI_OK���ɹ�
- * ����  ���ⲿ����
+ * 函数名：PcdHalt
+ * 描述  ：命令卡片进入休眠状态
+ * 输入  ：无
+ * 返回  : 状态值
+ *         = MI_OK，成功
+ * 调用  ：外部调用
  */
 char PcdHalt( void )
 {
@@ -874,17 +874,17 @@ char PcdHalt( void )
 
 void IC_CMT ( u8 * UID, u8 * KEY, u8 RW, u8 * Dat )
 {
-    u8 ucArray_ID [ 4 ] = { 0 };//�Ⱥ���IC�������ͺ�UID(IC�����к�)
+    u8 ucArray_ID [ 4 ] = { 0 };//先后存放IC卡的类型和UID(IC卡序列号)
 
-    PcdRequest ( 0x52, ucArray_ID );//Ѱ��
+    PcdRequest ( 0x52, ucArray_ID );//寻卡
 
-    PcdAnticoll ( ucArray_ID );//����ײ
+    PcdAnticoll ( ucArray_ID );//防冲撞
 
-    PcdSelect ( UID );//ѡ����
+    PcdSelect ( UID );//选定卡
 
-    PcdAuthState ( 0x60, 0x10, KEY, UID );//У��
+    PcdAuthState ( 0x60, 0x10, KEY, UID );//校验
 
-    if ( RW )//��дѡ��1�Ƕ���0��д
+    if ( RW )//读写选择，1是读，0是写
         PcdRead ( 0x10, Dat );
 
     else
@@ -894,7 +894,7 @@ void IC_CMT ( u8 * UID, u8 * KEY, u8 RW, u8 * Dat )
 
 }
 
-void ShowID(u8 *p)	 //��ʾ���Ŀ��ţ���ʮ��������ʾ
+void ShowID(u8 *p)	 //显示卡的卡号，以十六进制显示
 {
     u8 num[9];
     u8 i;
@@ -913,10 +913,10 @@ void ShowID(u8 *p)	 //��ʾ���Ŀ��ţ���ʮ�������
 
 		
 		
-		sprintf( (char *) p, "GET http://server.rams.encounterdx.live/user/puttRfid?rfidId=%s&did=202403062152", num );      
+		sprintf( (char *) p, "GET http://server.rams.encounterdx.live/user/puttRfid?rfidId=%s&did=202403062152", num );
 			
 		printf("%s \r\n",p);
-			//ͨ��wifi�����ݷ��ͳ�ȥ
+			//通过wifi将数据发送出去
 	  u2_printf( "%s\r\n", p );
 		
 				GPIO_SetBits(GPIOB,GPIO_Pin_12);	

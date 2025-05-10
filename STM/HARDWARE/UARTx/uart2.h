@@ -6,10 +6,10 @@
 #include "stdio.h"	 	 
 #include "string.h"
 
-#define USART2_MAX_RECV_LEN  			1024  	//¶¨Òå×î´ó½ÓÊÕ×Ö½ÚÊý 1024
-#define  USART2_MAX_SEND_LEN	  	1024  	//¶¨Òå×î´ó·¢ËÍ×Ö½ÚÊý 1024
-extern u8  USART2_RX_BUF[USART2_MAX_RECV_LEN]; //½ÓÊÕ»º³å,×î´óUSART_REC_LEN¸ö×Ö½Ú.Ä©×Ö½ÚÎª»»ÐÐ·û 
-extern u16 USART2_RX_STA;         		//½ÓÊÕ×´Ì¬±ê¼Ç	
+#define USART2_MAX_RECV_LEN  			1024  	//å®šä¹‰æœ€å¤§æŽ¥æ”¶å­—èŠ‚æ•° 1024
+#define  USART2_MAX_SEND_LEN	  	1024  	//å®šä¹‰æœ€å¤§å‘é€å­—èŠ‚æ•° 1024
+extern u8  USART2_RX_BUF[USART2_MAX_RECV_LEN]; //æŽ¥æ”¶ç¼“å†²,æœ€å¤§USART_REC_LENä¸ªå­—èŠ‚.æœ«å­—èŠ‚ä¸ºæ¢è¡Œç¬¦ 
+extern u16 USART2_RX_STA;         		//æŽ¥æ”¶çŠ¶æ€æ ‡è®°	
 
 void USART2_INIT(u32 baudrate);
 void uart2_test(void);

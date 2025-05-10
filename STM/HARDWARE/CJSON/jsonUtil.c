@@ -11,27 +11,27 @@ int		smokeLimit = 0;
 void parseJson( char* p )
 {
 	root		= cJSON_Parse( p );
-	//0-ÉÏÏŞ 1-ÏÂÏŞ
+	//0-ä¸Šé™ 1-ä¸‹é™
 
 //	printf("%s\n\r",p);
-//				printf("\n\r ¿ªÊ¼½âÎöµ½ÎÂ¶È \n\r");
+//				printf("\n\r å¼€å§‹è§£æåˆ°æ¸©åº¦ \n\r");
 	itemName	= cJSON_GetObjectItem( root, "wd" );
 	if ( itemName )
 	{
 			
 		temperatureLimit = itemName->valuedouble;
-//		printf("\n\r ½âÎöµ½ÎÂ¶È \n\r");
+//		printf("\n\r è§£æåˆ°æ¸©åº¦ \n\r");
 	
 		
 	}
-//			printf("\n\r ¿ªÊ¼½âÎöµ½»ğÑæ \n\r");
+//			printf("\n\r å¼€å§‹è§£æåˆ°ç«ç„° \n\r");
 	itemName = cJSON_GetObjectItem( root, "hy" );
 	if ( itemName )
 	{
-//		printf("\n\r ½âÎöµ½»ğÑæ \n\r");
+//		printf("\n\r è§£æåˆ°ç«ç„° \n\r");
 		flameLimit = itemName->valueint;
-//		printf("\n\r ½âÎöµ½»ğÑæ£º%d \n\r",itemName->valueint);
-//			printf("\n\r ½âÎöµ½»ğÑæ£º%d \n\r",flameLimit);
+//		printf("\n\r è§£æåˆ°ç«ç„°ï¼š%d \n\r",itemName->valueint);
+//			printf("\n\r è§£æåˆ°ç«ç„°ï¼š%d \n\r",flameLimit);
 	}
 	itemName = cJSON_GetObjectItem( root, "trq" );
 	if ( itemName )
@@ -39,13 +39,13 @@ void parseJson( char* p )
 		gasLimit = itemName->valueint;
 
 	}
-//				printf("\n\r ¿ªÊ¼½âÎöµ½ÑÌÎí \n\r");
+//				printf("\n\r å¼€å§‹è§£æåˆ°çƒŸé›¾ \n\r");
 	itemName = cJSON_GetObjectItem( root, "yw" );
 	if ( itemName )
 	{
 		
 		smokeLimit = itemName->valueint;
-//		printf("\n\r ½âÎöµ½ÑÌÎí£º%d \n\r",smokeLimit);
+//		printf("\n\r è§£æåˆ°çƒŸé›¾ï¼š%d \n\r",smokeLimit);
 	}
 	cJSON_Delete( root );
 }

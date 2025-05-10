@@ -2,33 +2,27 @@
 #define __DS18B20_H 
 #include "sys.h"   
 //////////////////////////////////////////////////////////////////////////////////	 
-//±¾³ÌÐòÖ»¹©Ñ§Ï°Ê¹ÓÃ£¬Î´¾­×÷ÕßÐí¿É£¬²»µÃÓÃÓÚÆäËüÈÎºÎÓÃÍ¾
-//ALIENTEK MiniSTM32¿ª·¢°å
-//DS18B20Çý¶¯´úÂë	   
-//ÕýµãÔ­×Ó@ALIENTEK
-//¼¼ÊõÂÛÌ³:www.openedv.com
-//ÐÞ¸ÄÈÕÆÚ:2014/3/12
-//°æ±¾£ºV1.0
-//°æÈ¨ËùÓÐ£¬µÁ°æ±Ø¾¿¡£
-//Copyright(C) ¹ãÖÝÊÐÐÇÒíµç×Ó¿Æ¼¼ÓÐÏÞ¹«Ë¾ 2009-2019
-//All rights reserved									  
+//ALIENTEK MiniSTM32å¼€å‘æ¿
+//DS18B20é©±åŠ¨ä»£ç 	   
+//ä¿®æ”¹æ—¥æœŸ:2025/5/10
+//ç‰ˆæœ¬ï¼šV1.0
 //////////////////////////////////////////////////////////////////////////////////
 
-//IO·½ÏòÉèÖÃ
+//IOæ–¹å‘è®¾ç½®
 #define DS18B20_IO_IN()  {GPIOA->CRL&=0XFFFFFFF0;GPIOA->CRL|=8<<0;}
 #define DS18B20_IO_OUT() {GPIOA->CRL&=0XFFFFFFF0;GPIOA->CRL|=3<<0;}
-////IO²Ù×÷º¯Êý											   
-#define	DS18B20_DQ_OUT PAout(0) //Êý¾Ý¶Ë¿Ú	PA0
-#define	DS18B20_DQ_IN  PAin(0)  //Êý¾Ý¶Ë¿Ú	PA0 
+////IOæ“ä½œå‡½æ•°											   
+#define	DS18B20_DQ_OUT PAout(0) //æ•°æ®ç«¯å£	PA0
+#define	DS18B20_DQ_IN  PAin(0)  //æ•°æ®ç«¯å£	PA0 
    	
-u8 DS18B20_Init(void);			//³õÊ¼»¯DS18B20
-short DS18B20_Get_Temp(void);	//»ñÈ¡ÎÂ¶È
-void DS18B20_Start(void);		//¿ªÊ¼ÎÂ¶È×ª»»
-void DS18B20_Write_Byte(u8 dat);//Ð´ÈëÒ»¸ö×Ö½Ú
-u8 DS18B20_Read_Byte(void);		//¶Á³öÒ»¸ö×Ö½Ú
-u8 DS18B20_Read_Bit(void);		//¶Á³öÒ»¸öÎ»
-u8 DS18B20_Check(void);			//¼ì²âÊÇ·ñ´æÔÚDS18B20
-void DS18B20_Rst(void);			//¸´Î»DS18B20    
+u8 DS18B20_Init(void);			//åˆå§‹åŒ–DS18B20
+short DS18B20_Get_Temp(void);	//èŽ·å–æ¸©åº¦
+void DS18B20_Start(void);		//å¼€å§‹æ¸©åº¦è½¬æ¢
+void DS18B20_Write_Byte(u8 dat);//å†™å…¥ä¸€ä¸ªå­—èŠ‚
+u8 DS18B20_Read_Byte(void);		//è¯»å‡ºä¸€ä¸ªå­—èŠ‚
+u8 DS18B20_Read_Bit(void);		//è¯»å‡ºä¸€ä¸ªä½
+u8 DS18B20_Check(void);			//æ£€æµ‹æ˜¯å¦å­˜åœ¨DS18B20
+void DS18B20_Rst(void);			//å¤ä½DS18B20    
 #endif
 
 
